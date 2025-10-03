@@ -5,10 +5,12 @@ import com.firefly.domain.distributor.catalog.core.distributor.commands.Register
 import com.firefly.domain.distributor.catalog.core.distributor.commands.RegisterProductCategoryCommand;
 import com.firefly.domain.distributor.catalog.core.distributor.commands.RegisterLendingTypeCommand;
 import com.firefly.domain.distributor.catalog.core.distributor.commands.RegisterLendingConfigurationCommand;
+import com.firefly.domain.distributor.catalog.core.distributor.commands.RegisterLeasingContractCommand;
 import com.firefly.domain.distributor.catalog.core.distributor.commands.RemoveProductInfoCommand;
 import com.firefly.domain.distributor.catalog.core.distributor.commands.RemoveProductCategoryCommand;
 import com.firefly.domain.distributor.catalog.core.distributor.commands.RemoveLendingTypeCommand;
 import com.firefly.domain.distributor.catalog.core.distributor.commands.RemoveLendingConfigurationCommand;
+import com.firefly.domain.distributor.catalog.core.distributor.commands.RemoveLeasingContractCommand;
 import com.firefly.transactional.annotations.Saga;
 import com.firefly.transactional.annotations.SagaStep;
 import com.firefly.transactional.annotations.StepEvent;
@@ -90,6 +92,24 @@ public class RegisterProductSaga {
                 ctx.getVariableAs(CTX_DISTRIBUTOR_ID, UUID.class),
                 ctx.getVariableAs(CTX_PRODUCT_ID, UUID.class),
                 lendingConfigurationId));
+    }
+
+    @SagaStep(id = STEP_REGISTER_LEASING_CONTRACT, compensate = COMPENSATE_REMOVE_LEASING_CONTRACT, dependsOn = STEP_REGISTER_LENDING_CONFIGURATION)
+    @StepEvent(type = EVENT_LEASING_CONTRACT_REGISTERED)
+    public Mono<UUID> registerLeasingContract(RegisterLeasingContractCommand cmd, SagaContext ctx) {
+        return cmd.getId() != null
+                ? Mono.<UUID>empty().doFirst(() -> ctx.variables().put(CTX_LEASING_CONTRACT_ID, cmd.getId()))
+                : commandBus.send(cmd
+                        .withDistributorId(ctx.getVariableAs(CTX_DISTRIBUTOR_ID, UUID.class))
+                        .withProductId(ctx.getVariableAs(CTX_PRODUCT_ID, UUID.class))
+                        .withLendingConfigurationId(ctx.getVariableAs(CTX_LENDING_CONFIGURATION_ID, UUID.class)))
+                .doOnNext(leasingContractId -> ctx.variables().put(CTX_LEASING_CONTRACT_ID, leasingContractId));
+    }
+
+    public Mono<Void> removeLeasingContract(UUID leasingContractId, SagaContext ctx) {
+        return commandBus.send(new RemoveLeasingContractCommand(
+                ctx.getVariableAs(CTX_DISTRIBUTOR_ID, UUID.class),
+                leasingContractId));
     }
 
 }

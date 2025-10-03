@@ -26,4 +26,23 @@ import java.util.UUID;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class RegisterLeasingContractCommand extends LeasingContractDTO implements Command<UUID> {}
+public class RegisterLeasingContractCommand extends LeasingContractDTO implements Command<UUID> {
+    private UUID distributorId;
+    private UUID productId;
+    private UUID lendingConfigurationId;
+
+    public RegisterLeasingContractCommand withDistributorId(UUID distributorId) {
+        this.distributorId = distributorId;
+        return this;
+    }
+
+    public RegisterLeasingContractCommand withProductId(UUID productId) {
+        this.productId = productId;
+        return this;
+    }
+
+    public RegisterLeasingContractCommand withLendingConfigurationId(UUID lendingConfigurationId) {
+        this.lendingConfigurationId = lendingConfigurationId;
+        return this;
+    }
+}
