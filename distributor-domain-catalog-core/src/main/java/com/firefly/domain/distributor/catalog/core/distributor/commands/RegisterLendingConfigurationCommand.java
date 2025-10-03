@@ -26,4 +26,19 @@ import java.util.UUID;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class RegisterLendingConfigurationCommand extends LendingConfigurationDTO implements Command<UUID> {}
+public class RegisterLendingConfigurationCommand extends LendingConfigurationDTO implements Command<UUID> {
+
+    private UUID productId;
+    private UUID lendingTypeId;
+
+
+    public RegisterLendingConfigurationCommand withProductId(UUID productId) {
+        this.productId = productId;
+        return this;
+    }
+
+    public RegisterLendingConfigurationCommand withLendingTypeId(UUID lendingTypeId) {
+        this.lendingTypeId = lendingTypeId;
+        return this;
+    }
+}

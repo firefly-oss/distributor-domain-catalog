@@ -4,9 +4,11 @@ import com.firefly.common.domain.cqrs.command.CommandBus;
 import com.firefly.domain.distributor.catalog.core.distributor.commands.RegisterProductInfoCommand;
 import com.firefly.domain.distributor.catalog.core.distributor.commands.RegisterProductCategoryCommand;
 import com.firefly.domain.distributor.catalog.core.distributor.commands.RegisterLendingTypeCommand;
+import com.firefly.domain.distributor.catalog.core.distributor.commands.RegisterLendingConfigurationCommand;
 import com.firefly.domain.distributor.catalog.core.distributor.commands.RemoveProductInfoCommand;
 import com.firefly.domain.distributor.catalog.core.distributor.commands.RemoveProductCategoryCommand;
 import com.firefly.domain.distributor.catalog.core.distributor.commands.RemoveLendingTypeCommand;
+import com.firefly.domain.distributor.catalog.core.distributor.commands.RemoveLendingConfigurationCommand;
 import com.firefly.transactional.annotations.Saga;
 import com.firefly.transactional.annotations.SagaStep;
 import com.firefly.transactional.annotations.StepEvent;
@@ -70,6 +72,24 @@ public class RegisterProductSaga {
 
     public Mono<Void> removeLendingType(UUID lendingTypeId, SagaContext ctx) {
         return commandBus.send(new RemoveLendingTypeCommand(ctx.getVariableAs(CTX_DISTRIBUTOR_ID, UUID.class), lendingTypeId));
+    }
+
+    @SagaStep(id = STEP_REGISTER_LENDING_CONFIGURATION, compensate = COMPENSATE_REMOVE_LENDING_CONFIGURATION, dependsOn = {STEP_REGISTER_LENDING_TYPE, STEP_REGISTER_PRODUCT})
+    @StepEvent(type = EVENT_LENDING_CONFIGURATION_REGISTERED)
+    public Mono<UUID> registerLendingConfiguration(RegisterLendingConfigurationCommand cmd, SagaContext ctx) {
+        return cmd.getId() != null
+                ? Mono.<UUID>empty().doFirst(() -> ctx.variables().put(CTX_LENDING_CONFIGURATION_ID, cmd.getId()))
+                : commandBus.send(cmd
+                        .withProductId(ctx.getVariableAs(CTX_PRODUCT_ID, UUID.class))
+                        .withLendingTypeId(ctx.getVariableAs(CTX_LENDING_TYPE_ID, UUID.class)))
+                .doOnNext(lendingConfigurationId -> ctx.variables().put(CTX_LENDING_CONFIGURATION_ID, lendingConfigurationId));
+    }
+
+    public Mono<Void> removeLendingConfiguration(UUID lendingConfigurationId, SagaContext ctx) {
+        return commandBus.send(new RemoveLendingConfigurationCommand(
+                ctx.getVariableAs(CTX_DISTRIBUTOR_ID, UUID.class),
+                ctx.getVariableAs(CTX_PRODUCT_ID, UUID.class),
+                lendingConfigurationId));
     }
 
 }
