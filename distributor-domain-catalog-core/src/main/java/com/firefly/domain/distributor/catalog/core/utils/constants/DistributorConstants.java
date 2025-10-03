@@ -8,15 +8,18 @@ public class DistributorConstants {
     // ============================== STEP IDENTIFIERS ==============================
     public static final String STEP_REGISTER_PRODUCT = "registerProduct";
     public static final String STEP_REGISTER_PRODUCT_CATEGORY = "registerProductCategory";
+    public static final String STEP_REGISTER_LENDING_TYPE = "registerLendingType";
 
 
     // ============================== COMPENSATE METHODS ==============================
     public static final String COMPENSATE_REMOVE_PRODUCT = "removeProduct";
     public static final String COMPENSATE_REMOVE_PRODUCT_CATEGORY = "removeProductCategory";
+    public static final String COMPENSATE_REMOVE_LENDING_TYPE = "removeLendingType";
 
     // ============================== EVENT TYPES ==============================
     public static final String EVENT_PRODUCT_REGISTERED = "product.registered";
     public static final String EVENT_PRODUCT_CATEGORY_REGISTERED = "product.category.registered";
+    public static final String EVENT_LENDING_TYPE_REGISTERED = "lending.type.registered";
 
 
 }

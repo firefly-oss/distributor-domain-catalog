@@ -17,18 +17,13 @@
 package com.firefly.domain.distributor.catalog.core.distributor.commands;
 
 import com.firefly.common.domain.cqrs.command.Command;
-import com.firefly.core.distributor.sdk.model.ProductDTO;
+import com.firefly.core.distributor.sdk.model.LeasingContractDTO;
+import com.firefly.core.distributor.sdk.model.LendingTypeDTO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.util.UUID;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
-public class RegisterProductCommand implements Command<UUID> {
-    private RegisterProductCategoryCommand productCategory;
-    private RegisterProductInfoCommand productInfo;
-    private RegisterLendingTypeCommand lendingType;
-    private RegisterLendingConfigurationCommand lendingConfiguration;
-    private RegisterLeasingContractCommand leasingContract;
-    private RegisterShipmentCommand shipment;
-}
+public class RegisterLeasingContractCommand extends LeasingContractDTO implements Command<UUID> {}

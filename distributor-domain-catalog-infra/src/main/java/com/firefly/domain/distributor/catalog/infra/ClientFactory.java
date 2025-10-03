@@ -1,5 +1,6 @@
 package com.firefly.domain.distributor.catalog.infra;
 
+import com.firefly.core.distributor.sdk.api.LendingTypeApi;
 import com.firefly.core.distributor.sdk.api.ProductApi;
 import com.firefly.core.distributor.sdk.api.ProductCategoryApi;
 import com.firefly.core.distributor.sdk.invoker.ApiClient;
@@ -31,6 +32,11 @@ public class ClientFactory {
     @Bean
     public ProductCategoryApi productCategoryApi() {
         return new ProductCategoryApi(apiClient);
+    }
+
+    @Bean
+    public LendingTypeApi lendingTypeApi() {
+        return new LendingTypeApi(apiClient);
     }
 
 }

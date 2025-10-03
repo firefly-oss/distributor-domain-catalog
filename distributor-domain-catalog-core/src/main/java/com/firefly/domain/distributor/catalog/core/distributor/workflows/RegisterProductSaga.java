@@ -3,8 +3,10 @@ package com.firefly.domain.distributor.catalog.core.distributor.workflows;
 import com.firefly.common.domain.cqrs.command.CommandBus;
 import com.firefly.domain.distributor.catalog.core.distributor.commands.RegisterProductInfoCommand;
 import com.firefly.domain.distributor.catalog.core.distributor.commands.RegisterProductCategoryCommand;
+import com.firefly.domain.distributor.catalog.core.distributor.commands.RegisterLendingTypeCommand;
 import com.firefly.domain.distributor.catalog.core.distributor.commands.RemoveProductInfoCommand;
 import com.firefly.domain.distributor.catalog.core.distributor.commands.RemoveProductCategoryCommand;
+import com.firefly.domain.distributor.catalog.core.distributor.commands.RemoveLendingTypeCommand;
 import com.firefly.transactional.annotations.Saga;
 import com.firefly.transactional.annotations.SagaStep;
 import com.firefly.transactional.annotations.StepEvent;
@@ -57,5 +59,17 @@ public class RegisterProductSaga {
         return commandBus.send(new RemoveProductInfoCommand(ctx.getVariableAs(CTX_DISTRIBUTOR_ID, UUID.class), productId));
     }
 
+    @SagaStep(id = STEP_REGISTER_LENDING_TYPE, compensate = COMPENSATE_REMOVE_LENDING_TYPE)
+    @StepEvent(type = EVENT_LENDING_TYPE_REGISTERED)
+    public Mono<UUID> registerLendingType(RegisterLendingTypeCommand cmd, SagaContext ctx) {
+        return cmd.getId() != null
+                ? Mono.<UUID>empty().doFirst(() -> ctx.variables().put(CTX_LENDING_TYPE_ID, cmd.getId()))
+                :commandBus.send(cmd)
+                .doOnNext(lendingTypeId -> ctx.variables().put(CTX_LENDING_TYPE_ID, lendingTypeId));
+    }
+
+    public Mono<Void> removeLendingType(UUID lendingTypeId, SagaContext ctx) {
+        return commandBus.send(new RemoveLendingTypeCommand(ctx.getVariableAs(CTX_DISTRIBUTOR_ID, UUID.class), lendingTypeId));
+    }
 
 }

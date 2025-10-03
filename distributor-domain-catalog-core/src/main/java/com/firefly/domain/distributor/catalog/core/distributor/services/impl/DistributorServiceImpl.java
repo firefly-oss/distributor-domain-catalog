@@ -34,6 +34,8 @@ public class DistributorServiceImpl implements DistributorService {
         StepInputs inputs = StepInputs.builder()
                 .forStep(RegisterProductSaga::registerProductCategory, command.getProductCategory())
                 .forStep(RegisterProductSaga::registerProduct, command.getProductInfo().withDistributorId(distributorId))
+                .forStep(RegisterProductSaga::registerLendingType, command.getLendingType())
+
                 .build();
 
         return engine.execute(RegisterProductSaga.class, inputs);

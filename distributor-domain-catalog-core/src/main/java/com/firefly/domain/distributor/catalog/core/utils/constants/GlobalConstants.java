@@ -6,5 +6,6 @@ public class GlobalConstants {
     public static final String CTX_PRODUCT_ID = "productId";
     public static final String CTX_DISTRIBUTOR_ID = "distributorId";
     public static final String CTX_CATEGORY_ID = "categoryId";
+    public static final String CTX_LENDING_TYPE_ID = "lendingTypeId";
 
 }
