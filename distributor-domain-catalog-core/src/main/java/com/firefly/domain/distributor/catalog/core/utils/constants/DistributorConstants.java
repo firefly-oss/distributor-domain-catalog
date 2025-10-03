@@ -11,6 +11,7 @@ public class DistributorConstants {
     public static final String STEP_REGISTER_LENDING_TYPE = "registerLendingType";
     public static final String STEP_REGISTER_LENDING_CONFIGURATION = "registerLendingConfiguration";
     public static final String STEP_REGISTER_LEASING_CONTRACT = "registerLeasingContract";
+    public static final String STEP_REGISTER_SHIPMENT = "registerShipment";
 
 
     // ============================== COMPENSATE METHODS ==============================
@@ -19,6 +20,7 @@ public class DistributorConstants {
     public static final String COMPENSATE_REMOVE_LENDING_TYPE = "removeLendingType";
     public static final String COMPENSATE_REMOVE_LENDING_CONFIGURATION = "removeLendingConfiguration";
     public static final String COMPENSATE_REMOVE_LEASING_CONTRACT = "removeLeasingContract";
+    public static final String COMPENSATE_REMOVE_SHIPMENT = "removeShipment";
 
     // ============================== EVENT TYPES ==============================
     public static final String EVENT_PRODUCT_REGISTERED = "product.registered";
@@ -26,6 +28,7 @@ public class DistributorConstants {
     public static final String EVENT_LENDING_TYPE_REGISTERED = "lending.type.registered";
     public static final String EVENT_LENDING_CONFIGURATION_REGISTERED = "lending.configuration.registered";
     public static final String EVENT_LEASING_CONTRACT_REGISTERED = "leasing.contract.registered";
+    public static final String EVENT_SHIPMENT_REGISTERED = "shipment.registered";
 
 
 }

@@ -6,11 +6,13 @@ import com.firefly.domain.distributor.catalog.core.distributor.commands.Register
 import com.firefly.domain.distributor.catalog.core.distributor.commands.RegisterLendingTypeCommand;
 import com.firefly.domain.distributor.catalog.core.distributor.commands.RegisterLendingConfigurationCommand;
 import com.firefly.domain.distributor.catalog.core.distributor.commands.RegisterLeasingContractCommand;
+import com.firefly.domain.distributor.catalog.core.distributor.commands.RegisterShipmentCommand;
 import com.firefly.domain.distributor.catalog.core.distributor.commands.RemoveProductInfoCommand;
 import com.firefly.domain.distributor.catalog.core.distributor.commands.RemoveProductCategoryCommand;
 import com.firefly.domain.distributor.catalog.core.distributor.commands.RemoveLendingTypeCommand;
 import com.firefly.domain.distributor.catalog.core.distributor.commands.RemoveLendingConfigurationCommand;
 import com.firefly.domain.distributor.catalog.core.distributor.commands.RemoveLeasingContractCommand;
+import com.firefly.domain.distributor.catalog.core.distributor.commands.RemoveShipmentCommand;
 import com.firefly.transactional.annotations.Saga;
 import com.firefly.transactional.annotations.SagaStep;
 import com.firefly.transactional.annotations.StepEvent;
@@ -110,6 +112,21 @@ public class RegisterProductSaga {
         return commandBus.send(new RemoveLeasingContractCommand(
                 ctx.getVariableAs(CTX_DISTRIBUTOR_ID, UUID.class),
                 leasingContractId));
+    }
+
+    @SagaStep(id = STEP_REGISTER_SHIPMENT, compensate = COMPENSATE_REMOVE_SHIPMENT, dependsOn = STEP_REGISTER_LEASING_CONTRACT)
+    @StepEvent(type = EVENT_SHIPMENT_REGISTERED)
+    public Mono<UUID> registerShipment(RegisterShipmentCommand cmd, SagaContext ctx) {
+        return cmd.getId() != null
+                ? Mono.<UUID>empty().doFirst(() -> ctx.variables().put(CTX_SHIPMENT_ID, cmd.getId()))
+                : commandBus.send(cmd
+                        .withLeasingContractId(ctx.getVariableAs(CTX_LEASING_CONTRACT_ID, UUID.class))
+                        .withProductId(ctx.getVariableAs(CTX_PRODUCT_ID, UUID.class)))
+                .doOnNext(shipmentId -> ctx.variables().put(CTX_SHIPMENT_ID, shipmentId));
+    }
+
+    public Mono<Void> removeShipment(UUID shipmentId) {
+        return commandBus.send(new RemoveShipmentCommand(shipmentId));
     }
 
 }

@@ -37,6 +37,7 @@ public class DistributorServiceImpl implements DistributorService {
                 .forStep(RegisterProductSaga::registerLendingType, command.getLendingType())
                 .forStep(RegisterProductSaga::registerLendingConfiguration, command.getLendingConfiguration())
                 .forStep(RegisterProductSaga::registerLeasingContract, command.getLeasingContract())
+                .forStep(RegisterProductSaga::registerShipment, command.getShipment())
 
                 .build();
 

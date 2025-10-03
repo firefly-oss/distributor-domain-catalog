@@ -5,6 +5,7 @@ import com.firefly.core.distributor.sdk.api.LendingConfigurationApi;
 import com.firefly.core.distributor.sdk.api.LendingTypeApi;
 import com.firefly.core.distributor.sdk.api.ProductApi;
 import com.firefly.core.distributor.sdk.api.ProductCategoryApi;
+import com.firefly.core.distributor.sdk.api.ShipmentApi;
 import com.firefly.core.distributor.sdk.invoker.ApiClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -49,6 +50,11 @@ public class ClientFactory {
     @Bean
     public LeasingContractApi leasingContractApi() {
         return new LeasingContractApi(apiClient);
+    }
+
+    @Bean
+    public ShipmentApi shipmentApi() {
+        return new ShipmentApi(apiClient);
     }
 
 }
