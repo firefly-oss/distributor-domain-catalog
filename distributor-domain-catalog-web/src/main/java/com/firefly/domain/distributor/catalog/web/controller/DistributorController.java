@@ -1,5 +1,6 @@
 package com.firefly.domain.distributor.catalog.web.controller;
 
+import com.firefly.core.distributor.sdk.model.ProductDTO;
 import com.firefly.domain.distributor.catalog.core.distributor.commands.RegisterProductCommand;
 import com.firefly.domain.distributor.catalog.core.distributor.services.DistributorService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -8,6 +9,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.UUID;
@@ -25,6 +27,14 @@ public class DistributorController {
     public Mono<ResponseEntity<Object>> registerProduct(@Valid @RequestBody RegisterProductCommand command, @PathVariable UUID distributorId) {
         return distributorService.registerProduct(distributorId, command)
                 .thenReturn(ResponseEntity.ok().build());
+    }
+
+    @Operation(summary = "List catalog", description = "Retrieve distributor's unified product catalog.")
+    @GetMapping(value = "/{distributorId}/products")
+    public Mono<ResponseEntity<Flux<ProductDTO>>> listCatalog(@PathVariable UUID distributorId) {
+        return distributorService.listCatalog(distributorId)
+                .map(ResponseEntity::ok)
+                .defaultIfEmpty(ResponseEntity.ok().build());
     }
 
 }
