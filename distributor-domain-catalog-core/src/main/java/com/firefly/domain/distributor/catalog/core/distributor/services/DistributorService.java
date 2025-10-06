@@ -1,7 +1,9 @@
 package com.firefly.domain.distributor.catalog.core.distributor.services;
 
 import com.firefly.core.distributor.sdk.model.ProductDTO;
+import com.firefly.core.distributor.sdk.model.ShipmentDTO;
 import com.firefly.domain.distributor.catalog.core.distributor.commands.RegisterProductCommand;
+import com.firefly.domain.distributor.catalog.core.distributor.commands.RegisterShipmentCommand;
 import com.firefly.domain.distributor.catalog.core.distributor.commands.UpdateProductCommand;
 import com.firefly.domain.distributor.catalog.core.distributor.commands.UpdateProductInfoCommand;
 import com.firefly.transactional.core.SagaResult;
@@ -13,7 +15,7 @@ import java.util.UUID;
 
 public interface DistributorService {
 
-    Mono<SagaResult> registerProduct(UUID distributorId, @Valid RegisterProductCommand command);
+    Mono<SagaResult> registerProduct(UUID distributorId, RegisterProductCommand command);
 
     Mono<Flux<ProductDTO>> listCatalog(UUID distributorId);
 
@@ -21,7 +23,7 @@ public interface DistributorService {
 
     Mono<SagaResult> retireProduct(UUID distributorId, UUID productId,  UpdateProductInfoCommand command);
 
-    Mono<Object> trackProductShipments(UUID productId);
+    Mono<Flux<ShipmentDTO>> trackProductShipments(UUID distributorId, UUID productId);
 
-
+    Mono<SagaResult> registerShipment(UUID distributorId, UUID productId, RegisterShipmentCommand command);
 }

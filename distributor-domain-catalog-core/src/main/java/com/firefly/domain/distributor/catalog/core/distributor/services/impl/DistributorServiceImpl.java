@@ -2,13 +2,13 @@ package com.firefly.domain.distributor.catalog.core.distributor.services.impl;
 
 import com.firefly.common.domain.cqrs.query.QueryBus;
 import com.firefly.core.distributor.sdk.model.ProductDTO;
-import com.firefly.domain.distributor.catalog.core.distributor.commands.RegisterProductCommand;
-import com.firefly.domain.distributor.catalog.core.distributor.commands.UpdateProductCommand;
-import com.firefly.domain.distributor.catalog.core.distributor.commands.UpdateProductInfoCommand;
+import com.firefly.core.distributor.sdk.model.ShipmentDTO;
+import com.firefly.domain.distributor.catalog.core.distributor.commands.*;
 import com.firefly.domain.distributor.catalog.core.distributor.queries.GetProductCatalogQuery;
-import com.firefly.domain.distributor.catalog.core.distributor.commands.RetireProductCommand;
+import com.firefly.domain.distributor.catalog.core.distributor.queries.GetShipmentsQuery;
 import com.firefly.domain.distributor.catalog.core.distributor.services.DistributorService;
 import com.firefly.domain.distributor.catalog.core.distributor.workflows.RegisterProductSaga;
+import com.firefly.domain.distributor.catalog.core.distributor.workflows.RegisterShipmentSaga;
 import com.firefly.domain.distributor.catalog.core.distributor.workflows.UpdateProductSaga;
 import com.firefly.domain.distributor.catalog.core.distributor.workflows.UpdateProductStatusSaga;
 import com.firefly.transactional.core.SagaResult;
@@ -86,9 +86,17 @@ public class DistributorServiceImpl implements DistributorService {
     }
 
     @Override
-    public Mono<Object> trackProductShipments(UUID productId) {
-        // TODO: Implement track shipments associated with a product
-        return Mono.empty();
+    public Mono<Flux<ShipmentDTO>> trackProductShipments(UUID distributorId, UUID productId) {
+        return queryBus.query(GetShipmentsQuery.builder().distributorId(distributorId).productId(productId).build());
+    }
+
+    @Override
+    public Mono<SagaResult> registerShipment(UUID distributorId, UUID productId, RegisterShipmentCommand command) {
+        StepInputs inputs = StepInputs.builder()
+                .forStep(RegisterShipmentSaga::registerShipment, command.withProductId(productId))
+                .build();
+
+        return engine.execute(RegisterShipmentSaga.class, inputs);
     }
 
 }

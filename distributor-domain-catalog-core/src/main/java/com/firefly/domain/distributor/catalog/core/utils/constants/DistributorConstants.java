@@ -6,6 +6,7 @@ public class DistributorConstants {
     public static final String SAGA_REGISTER_PRODUCT = "RegisterProductSaga";
     public static final String SAGA_UPDATE_PRODUCT = "UpdateProductSaga";
     public static final String SAGA_UPDATE_PRODUCT_STATUS = "UpdateProductStatusSaga";
+    public static final String SAGA_REGISTER_SHIPMENT = "RegisterShipmentSaga";
 
 
     // ============================== STEP IDENTIFIERS ==============================

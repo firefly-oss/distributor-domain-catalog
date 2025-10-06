@@ -1,7 +1,9 @@
 package com.firefly.domain.distributor.catalog.web.controller;
 
 import com.firefly.core.distributor.sdk.model.ProductDTO;
+import com.firefly.core.distributor.sdk.model.ShipmentDTO;
 import com.firefly.domain.distributor.catalog.core.distributor.commands.RegisterProductCommand;
+import com.firefly.domain.distributor.catalog.core.distributor.commands.RegisterShipmentCommand;
 import com.firefly.domain.distributor.catalog.core.distributor.commands.UpdateProductCommand;
 import com.firefly.domain.distributor.catalog.core.distributor.commands.UpdateProductInfoCommand;
 import com.firefly.domain.distributor.catalog.core.distributor.services.DistributorService;
@@ -61,12 +63,22 @@ public class DistributorController {
 
     @Operation(summary = "Track product shipments", description = "Track shipments associated with a product.")
     @GetMapping(value = "/{distributorId}/products/{productId}/shipments")
-    public Mono<ResponseEntity<Object>> trackProductShipments(
+    public Mono<ResponseEntity<Flux<ShipmentDTO>>> trackProductShipments(
             @PathVariable UUID distributorId,
             @PathVariable UUID productId) {
-        return distributorService.trackProductShipments(productId)
+        return distributorService.trackProductShipments(distributorId, productId)
                 .map(ResponseEntity::ok)
                 .defaultIfEmpty(ResponseEntity.ok().build());
+    }
+
+    @Operation(summary = "Ship contract item", description = "Register shipment related to a leasing contract.")
+    @PostMapping(value = "/{distributorId}/products/{productId}/shipments")
+    public Mono<ResponseEntity<Object>> shipContractItem(
+            @PathVariable UUID distributorId,
+            @PathVariable UUID productId,
+            @Valid @RequestBody RegisterShipmentCommand command) {
+        return distributorService.registerShipment(distributorId, productId, command)
+                .thenReturn(ResponseEntity.ok().build());
     }
 
 }
