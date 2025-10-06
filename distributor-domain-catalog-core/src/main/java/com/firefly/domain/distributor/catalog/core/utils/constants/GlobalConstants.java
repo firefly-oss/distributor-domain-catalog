@@ -10,5 +10,7 @@ public class GlobalConstants {
     public static final String CTX_LENDING_CONFIGURATION_ID = "lendingConfigurationId";
     public static final String CTX_LEASING_CONTRACT_ID = "leasingContractId";
     public static final String CTX_SHIPMENT_ID = "shipmentId";
+    public static final String CTX_PRODUCT = "product";
+
 
 }

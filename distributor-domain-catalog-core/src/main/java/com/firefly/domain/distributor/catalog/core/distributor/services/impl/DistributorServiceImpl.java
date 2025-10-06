@@ -4,10 +4,13 @@ import com.firefly.common.domain.cqrs.query.QueryBus;
 import com.firefly.core.distributor.sdk.model.ProductDTO;
 import com.firefly.domain.distributor.catalog.core.distributor.commands.RegisterProductCommand;
 import com.firefly.domain.distributor.catalog.core.distributor.commands.UpdateProductCommand;
+import com.firefly.domain.distributor.catalog.core.distributor.commands.UpdateProductInfoCommand;
 import com.firefly.domain.distributor.catalog.core.distributor.queries.GetProductCatalogQuery;
+import com.firefly.domain.distributor.catalog.core.distributor.commands.RetireProductCommand;
 import com.firefly.domain.distributor.catalog.core.distributor.services.DistributorService;
 import com.firefly.domain.distributor.catalog.core.distributor.workflows.RegisterProductSaga;
 import com.firefly.domain.distributor.catalog.core.distributor.workflows.UpdateProductSaga;
+import com.firefly.domain.distributor.catalog.core.distributor.workflows.UpdateProductStatusSaga;
 import com.firefly.transactional.core.SagaResult;
 import com.firefly.transactional.engine.SagaEngine;
 import com.firefly.transactional.engine.StepInputs;
@@ -69,9 +72,17 @@ public class DistributorServiceImpl implements DistributorService {
     }
 
     @Override
-    public Mono<Void> retireProduct(UUID productId) {
-        // TODO: Implement retire product ensuring no active contracts are linked
-        return Mono.empty();
+    public Mono<SagaResult> retireProduct(UUID distributorId, UUID productId, UpdateProductInfoCommand command) {
+        StepInputs inputs = StepInputs.builder()
+                .forStep(UpdateProductStatusSaga::retireProduct, RetireProductCommand.builder()
+                        .id(productId)
+                        .distributorId(distributorId)
+                        .name(command.getName())
+                        .isActive(false)
+                        .build())
+                .build();
+
+        return engine.execute(UpdateProductStatusSaga.class, inputs);
     }
 
     @Override

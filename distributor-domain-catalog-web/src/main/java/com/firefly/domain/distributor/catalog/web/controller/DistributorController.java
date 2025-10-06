@@ -3,6 +3,7 @@ package com.firefly.domain.distributor.catalog.web.controller;
 import com.firefly.core.distributor.sdk.model.ProductDTO;
 import com.firefly.domain.distributor.catalog.core.distributor.commands.RegisterProductCommand;
 import com.firefly.domain.distributor.catalog.core.distributor.commands.UpdateProductCommand;
+import com.firefly.domain.distributor.catalog.core.distributor.commands.UpdateProductInfoCommand;
 import com.firefly.domain.distributor.catalog.core.distributor.services.DistributorService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -52,8 +53,9 @@ public class DistributorController {
     @DeleteMapping(value = "/{distributorId}/products/{productId}")
     public Mono<ResponseEntity<Object>> retireProduct(
             @PathVariable UUID distributorId,
-            @PathVariable UUID productId) {
-        return distributorService.retireProduct(productId)
+            @PathVariable UUID productId,
+            @Valid @RequestBody UpdateProductInfoCommand command) {
+        return distributorService.retireProduct(distributorId, productId, command)
                 .thenReturn(ResponseEntity.ok().build());
     }
 

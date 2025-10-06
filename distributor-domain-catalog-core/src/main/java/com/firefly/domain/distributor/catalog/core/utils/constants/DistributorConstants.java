@@ -5,6 +5,8 @@ public class DistributorConstants {
     // ============================== SAGA CONFIGURATION ==============================
     public static final String SAGA_REGISTER_PRODUCT = "RegisterProductSaga";
     public static final String SAGA_UPDATE_PRODUCT = "UpdateProductSaga";
+    public static final String SAGA_UPDATE_PRODUCT_STATUS = "UpdateProductStatusSaga";
+
 
     // ============================== STEP IDENTIFIERS ==============================
     public static final String STEP_REGISTER_PRODUCT = "registerProduct";
@@ -17,6 +19,8 @@ public class DistributorConstants {
     public static final String STEP_UPDATE_LENDING_CONFIGURATION = "updateLendingConfiguration";
     public static final String STEP_UPDATE_LEASING_CONTRACT = "updateLeasingContract";
     public static final String STEP_UPDATE_SHIPMENT = "updateShipment";
+    public static final String STEP_UPDATE_PRODUCT = "updateProduct";
+
 
     // ============================== COMPENSATE METHODS ==============================
     public static final String COMPENSATE_REMOVE_PRODUCT = "removeProduct";
@@ -37,6 +41,7 @@ public class DistributorConstants {
     public static final String EVENT_LENDING_CONFIGURATION_UPDATED = "lending.configuration.updated";
     public static final String EVENT_LEASING_CONTRACT_UPDATED = "leasing.contract.updated";
     public static final String EVENT_SHIPMENT_UPDATED = "shipment.updated";
+    public static final String EVENT_PRODUCT_UPDATED = "product.updated";
 
 
 }
