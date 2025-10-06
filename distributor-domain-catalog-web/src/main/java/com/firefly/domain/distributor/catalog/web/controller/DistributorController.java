@@ -2,6 +2,7 @@ package com.firefly.domain.distributor.catalog.web.controller;
 
 import com.firefly.core.distributor.sdk.model.ProductDTO;
 import com.firefly.domain.distributor.catalog.core.distributor.commands.RegisterProductCommand;
+import com.firefly.domain.distributor.catalog.core.distributor.commands.UpdateProductCommand;
 import com.firefly.domain.distributor.catalog.core.distributor.services.DistributorService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -33,6 +34,35 @@ public class DistributorController {
     @GetMapping(value = "/{distributorId}/products")
     public Mono<ResponseEntity<Flux<ProductDTO>>> listCatalog(@PathVariable UUID distributorId) {
         return distributorService.listCatalog(distributorId)
+                .map(ResponseEntity::ok)
+                .defaultIfEmpty(ResponseEntity.ok().build());
+    }
+
+    @Operation(summary = "Revise product", description = "Revise product details and financing configurations.")
+    @PutMapping(value = "/{distributorId}/products/{productId}")
+    public Mono<ResponseEntity<Object>> reviseProduct(
+            @PathVariable UUID distributorId,
+            @PathVariable UUID productId,
+            @Valid @RequestBody UpdateProductCommand command) {
+        return distributorService.reviseProduct(distributorId, productId, command)
+                .thenReturn(ResponseEntity.ok().build());
+    }
+
+    @Operation(summary = "Retire product", description = "Retire product ensuring no active contracts are linked.")
+    @DeleteMapping(value = "/{distributorId}/products/{productId}")
+    public Mono<ResponseEntity<Object>> retireProduct(
+            @PathVariable UUID distributorId,
+            @PathVariable UUID productId) {
+        return distributorService.retireProduct(productId)
+                .thenReturn(ResponseEntity.ok().build());
+    }
+
+    @Operation(summary = "Track product shipments", description = "Track shipments associated with a product.")
+    @GetMapping(value = "/{distributorId}/products/{productId}/shipments")
+    public Mono<ResponseEntity<Object>> trackProductShipments(
+            @PathVariable UUID distributorId,
+            @PathVariable UUID productId) {
+        return distributorService.trackProductShipments(productId)
                 .map(ResponseEntity::ok)
                 .defaultIfEmpty(ResponseEntity.ok().build());
     }
