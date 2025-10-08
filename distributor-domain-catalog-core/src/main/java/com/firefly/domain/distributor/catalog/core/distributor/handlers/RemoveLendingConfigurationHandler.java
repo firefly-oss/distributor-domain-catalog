@@ -6,8 +6,6 @@ import com.firefly.core.distributor.sdk.api.LendingConfigurationApi;
 import com.firefly.domain.distributor.catalog.core.distributor.commands.RemoveLendingConfigurationCommand;
 import reactor.core.publisher.Mono;
 
-import java.util.UUID;
-
 @CommandHandlerComponent
 public class RemoveLendingConfigurationHandler extends CommandHandler<RemoveLendingConfigurationCommand, Void> {
 

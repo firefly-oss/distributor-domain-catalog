@@ -1,0 +1,1452 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "distributor-domain-catalog",
+    "description": "Distributor Domain Catalog Layer Application",
+    "contact": {
+      "name": "Firefly Software Solutions Inc",
+      "email": "dev@getfirefly.io"
+    },
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://core.getfirefly.io/distributor-domain-catalog",
+      "description": "Development Environment"
+    },
+    {
+      "url": "/",
+      "description": "Local Development Environment"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Distributor",
+      "description": "CQ queries and registration for Distributors"
+    }
+  ],
+  "paths": {
+    "/api/v1/distributors/{distributorId}/products/{productId}": {
+      "put": {
+        "tags": [
+          "Distributor"
+        ],
+        "summary": "Revise product",
+        "description": "Revise product details and financing configurations.",
+        "operationId": "reviseProduct",
+        "parameters": [
+          {
+            "name": "distributorId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "productId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "X-Idempotency-Key",
+            "in": "header",
+            "description": "Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Party-ID",
+            "in": "header",
+            "description": "Identifier of the client (at least one of X-Party-ID, X-Employee-ID, or X-Service-Account-ID is required)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Employee-ID",
+            "in": "header",
+            "description": "Identifier of the employee (at least one of X-Party-ID, X-Employee-ID, or X-Service-Account-ID is required)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Service-Account-ID",
+            "in": "header",
+            "description": "Identifier of the service account (at least one of X-Party-ID, X-Employee-ID, or X-Service-Account-ID is required)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Auth-Roles",
+            "in": "header",
+            "description": "Roles of the subject (CUSTOMER, ADMIN, CUSTOMER_SUPPORT, SUPERVISOR, MANAGER, BRANCH_STAFF, SERVICE_ACCOUNT), comma-separated (optional)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Auth-Scopes",
+            "in": "header",
+            "description": "OAuth2 scopes like contracts.read, accounts.write, comma-separated (optional)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Request-ID",
+            "in": "header",
+            "description": "Unique identifier for the request, used for traceability (optional)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateProductCommand"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Distributor"
+        ],
+        "summary": "Retire product",
+        "description": "Retire product ensuring no active contracts are linked.",
+        "operationId": "retireProduct",
+        "parameters": [
+          {
+            "name": "distributorId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "productId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "X-Party-ID",
+            "in": "header",
+            "description": "Identifier of the client (at least one of X-Party-ID, X-Employee-ID, or X-Service-Account-ID is required)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Employee-ID",
+            "in": "header",
+            "description": "Identifier of the employee (at least one of X-Party-ID, X-Employee-ID, or X-Service-Account-ID is required)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Service-Account-ID",
+            "in": "header",
+            "description": "Identifier of the service account (at least one of X-Party-ID, X-Employee-ID, or X-Service-Account-ID is required)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Auth-Roles",
+            "in": "header",
+            "description": "Roles of the subject (CUSTOMER, ADMIN, CUSTOMER_SUPPORT, SUPERVISOR, MANAGER, BRANCH_STAFF, SERVICE_ACCOUNT), comma-separated (optional)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Auth-Scopes",
+            "in": "header",
+            "description": "OAuth2 scopes like contracts.read, accounts.write, comma-separated (optional)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Request-ID",
+            "in": "header",
+            "description": "Unique identifier for the request, used for traceability (optional)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateProductInfoCommand"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/distributors/{distributorId}/products": {
+      "get": {
+        "tags": [
+          "Distributor"
+        ],
+        "summary": "List catalog",
+        "description": "Retrieve distributor's unified product catalog.",
+        "operationId": "listCatalog",
+        "parameters": [
+          {
+            "name": "distributorId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "X-Party-ID",
+            "in": "header",
+            "description": "Identifier of the client (at least one of X-Party-ID, X-Employee-ID, or X-Service-Account-ID is required)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Employee-ID",
+            "in": "header",
+            "description": "Identifier of the employee (at least one of X-Party-ID, X-Employee-ID, or X-Service-Account-ID is required)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Service-Account-ID",
+            "in": "header",
+            "description": "Identifier of the service account (at least one of X-Party-ID, X-Employee-ID, or X-Service-Account-ID is required)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Auth-Roles",
+            "in": "header",
+            "description": "Roles of the subject (CUSTOMER, ADMIN, CUSTOMER_SUPPORT, SUPERVISOR, MANAGER, BRANCH_STAFF, SERVICE_ACCOUNT), comma-separated (optional)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Auth-Scopes",
+            "in": "header",
+            "description": "OAuth2 scopes like contracts.read, accounts.write, comma-separated (optional)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Request-ID",
+            "in": "header",
+            "description": "Unique identifier for the request, used for traceability (optional)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProductDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Distributor"
+        ],
+        "summary": "Submit application",
+        "description": "Submit an application with product, amount, currency, and channel.",
+        "operationId": "registerProduct",
+        "parameters": [
+          {
+            "name": "distributorId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "X-Idempotency-Key",
+            "in": "header",
+            "description": "Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Party-ID",
+            "in": "header",
+            "description": "Identifier of the client (at least one of X-Party-ID, X-Employee-ID, or X-Service-Account-ID is required)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Employee-ID",
+            "in": "header",
+            "description": "Identifier of the employee (at least one of X-Party-ID, X-Employee-ID, or X-Service-Account-ID is required)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Service-Account-ID",
+            "in": "header",
+            "description": "Identifier of the service account (at least one of X-Party-ID, X-Employee-ID, or X-Service-Account-ID is required)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Auth-Roles",
+            "in": "header",
+            "description": "Roles of the subject (CUSTOMER, ADMIN, CUSTOMER_SUPPORT, SUPERVISOR, MANAGER, BRANCH_STAFF, SERVICE_ACCOUNT), comma-separated (optional)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Auth-Scopes",
+            "in": "header",
+            "description": "OAuth2 scopes like contracts.read, accounts.write, comma-separated (optional)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Request-ID",
+            "in": "header",
+            "description": "Unique identifier for the request, used for traceability (optional)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterProductCommand"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/distributors/{distributorId}/products/{productId}/shipments": {
+      "get": {
+        "tags": [
+          "Distributor"
+        ],
+        "summary": "Track product shipments",
+        "description": "Track shipments associated with a product.",
+        "operationId": "trackProductShipments",
+        "parameters": [
+          {
+            "name": "distributorId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "productId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "X-Party-ID",
+            "in": "header",
+            "description": "Identifier of the client (at least one of X-Party-ID, X-Employee-ID, or X-Service-Account-ID is required)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Employee-ID",
+            "in": "header",
+            "description": "Identifier of the employee (at least one of X-Party-ID, X-Employee-ID, or X-Service-Account-ID is required)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Service-Account-ID",
+            "in": "header",
+            "description": "Identifier of the service account (at least one of X-Party-ID, X-Employee-ID, or X-Service-Account-ID is required)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Auth-Roles",
+            "in": "header",
+            "description": "Roles of the subject (CUSTOMER, ADMIN, CUSTOMER_SUPPORT, SUPERVISOR, MANAGER, BRANCH_STAFF, SERVICE_ACCOUNT), comma-separated (optional)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Auth-Scopes",
+            "in": "header",
+            "description": "OAuth2 scopes like contracts.read, accounts.write, comma-separated (optional)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Request-ID",
+            "in": "header",
+            "description": "Unique identifier for the request, used for traceability (optional)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ShipmentDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Distributor"
+        ],
+        "summary": "Ship contract item",
+        "description": "Register shipment related to a leasing contract.",
+        "operationId": "shipContractItem",
+        "parameters": [
+          {
+            "name": "distributorId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "productId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "X-Idempotency-Key",
+            "in": "header",
+            "description": "Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Party-ID",
+            "in": "header",
+            "description": "Identifier of the client (at least one of X-Party-ID, X-Employee-ID, or X-Service-Account-ID is required)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Employee-ID",
+            "in": "header",
+            "description": "Identifier of the employee (at least one of X-Party-ID, X-Employee-ID, or X-Service-Account-ID is required)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Service-Account-ID",
+            "in": "header",
+            "description": "Identifier of the service account (at least one of X-Party-ID, X-Employee-ID, or X-Service-Account-ID is required)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Auth-Roles",
+            "in": "header",
+            "description": "Roles of the subject (CUSTOMER, ADMIN, CUSTOMER_SUPPORT, SUPERVISOR, MANAGER, BRANCH_STAFF, SERVICE_ACCOUNT), comma-separated (optional)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Auth-Scopes",
+            "in": "header",
+            "description": "OAuth2 scopes like contracts.read, accounts.write, comma-separated (optional)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Request-ID",
+            "in": "header",
+            "description": "Unique identifier for the request, used for traceability (optional)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterShipmentCommand"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "UpdateLeasingContractCommand": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "contractId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "partyId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "distributorId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "productId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "lendingConfigurationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "monthlyPayment": {
+            "type": "number"
+          },
+          "downPayment": {
+            "type": "number"
+          },
+          "totalAmount": {
+            "type": "number"
+          },
+          "status": {
+            "type": "string"
+          },
+          "approvalDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "approvedBy": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "termsConditions": {
+            "type": "string"
+          },
+          "notes": {
+            "type": "string"
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdBy": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedBy": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "UpdateLendingConfigurationCommand": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "productId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "lendingTypeId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "minTermMonths": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "maxTermMonths": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "defaultTermMonths": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "minDownPaymentPercentage": {
+            "type": "number"
+          },
+          "defaultDownPaymentPercentage": {
+            "type": "number"
+          },
+          "interestRate": {
+            "type": "number"
+          },
+          "processingFeePercentage": {
+            "type": "number"
+          },
+          "earlyTerminationFeePercentage": {
+            "type": "number"
+          },
+          "latePaymentFeeAmount": {
+            "type": "number"
+          },
+          "gracePeriodDays": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isDefault": {
+            "type": "boolean"
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "termsConditions": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdBy": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedBy": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "UpdateProductCommand": {
+        "type": "object",
+        "properties": {
+          "productInfo": {
+            "$ref": "#/components/schemas/UpdateProductInfoCommand"
+          },
+          "lendingConfiguration": {
+            "$ref": "#/components/schemas/UpdateLendingConfigurationCommand"
+          },
+          "leasingContract": {
+            "$ref": "#/components/schemas/UpdateLeasingContractCommand"
+          },
+          "shipment": {
+            "$ref": "#/components/schemas/UpdateShipmentCommand"
+          }
+        }
+      },
+      "UpdateProductInfoCommand": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "distributorId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "sku": {
+            "type": "string"
+          },
+          "modelNumber": {
+            "type": "string"
+          },
+          "manufacturer": {
+            "type": "string"
+          },
+          "categoryId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "imageUrl": {
+            "type": "string"
+          },
+          "specifications": {
+            "type": "string"
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdBy": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedBy": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "UpdateShipmentCommand": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "leasingContractId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "productId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "trackingNumber": {
+            "type": "string"
+          },
+          "carrier": {
+            "type": "string"
+          },
+          "shippingAddress": {
+            "type": "string"
+          },
+          "shippingDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "estimatedDeliveryDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "actualDeliveryDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "status": {
+            "type": "string"
+          },
+          "notes": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdBy": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedBy": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "RegisterLeasingContractCommand": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "contractId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "partyId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "distributorId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "productId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "lendingConfigurationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "monthlyPayment": {
+            "type": "number"
+          },
+          "downPayment": {
+            "type": "number"
+          },
+          "totalAmount": {
+            "type": "number"
+          },
+          "status": {
+            "type": "string"
+          },
+          "approvalDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "approvedBy": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "termsConditions": {
+            "type": "string"
+          },
+          "notes": {
+            "type": "string"
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdBy": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedBy": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "RegisterLendingConfigurationCommand": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "productId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "lendingTypeId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "minTermMonths": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "maxTermMonths": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "defaultTermMonths": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "minDownPaymentPercentage": {
+            "type": "number"
+          },
+          "defaultDownPaymentPercentage": {
+            "type": "number"
+          },
+          "interestRate": {
+            "type": "number"
+          },
+          "processingFeePercentage": {
+            "type": "number"
+          },
+          "earlyTerminationFeePercentage": {
+            "type": "number"
+          },
+          "latePaymentFeeAmount": {
+            "type": "number"
+          },
+          "gracePeriodDays": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isDefault": {
+            "type": "boolean"
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "termsConditions": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdBy": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedBy": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "RegisterLendingTypeCommand": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdBy": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedBy": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "RegisterProductCategoryCommand": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdBy": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedBy": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "RegisterProductCommand": {
+        "type": "object",
+        "properties": {
+          "productCategory": {
+            "$ref": "#/components/schemas/RegisterProductCategoryCommand"
+          },
+          "productInfo": {
+            "$ref": "#/components/schemas/RegisterProductInfoCommand"
+          },
+          "lendingType": {
+            "$ref": "#/components/schemas/RegisterLendingTypeCommand"
+          },
+          "lendingConfiguration": {
+            "$ref": "#/components/schemas/RegisterLendingConfigurationCommand"
+          },
+          "leasingContract": {
+            "$ref": "#/components/schemas/RegisterLeasingContractCommand"
+          },
+          "shipment": {
+            "$ref": "#/components/schemas/RegisterShipmentCommand"
+          }
+        }
+      },
+      "RegisterProductInfoCommand": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "distributorId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "sku": {
+            "type": "string"
+          },
+          "modelNumber": {
+            "type": "string"
+          },
+          "manufacturer": {
+            "type": "string"
+          },
+          "categoryId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "imageUrl": {
+            "type": "string"
+          },
+          "specifications": {
+            "type": "string"
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdBy": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedBy": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "RegisterShipmentCommand": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "leasingContractId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "productId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "trackingNumber": {
+            "type": "string"
+          },
+          "carrier": {
+            "type": "string"
+          },
+          "shippingAddress": {
+            "type": "string"
+          },
+          "shippingDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "estimatedDeliveryDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "actualDeliveryDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "status": {
+            "type": "string"
+          },
+          "notes": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdBy": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedBy": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "ProductDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "distributorId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "sku": {
+            "type": "string"
+          },
+          "modelNumber": {
+            "type": "string"
+          },
+          "manufacturer": {
+            "type": "string"
+          },
+          "categoryId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "imageUrl": {
+            "type": "string"
+          },
+          "specifications": {
+            "type": "string"
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdBy": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedBy": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "ShipmentDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "leasingContractId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "productId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "trackingNumber": {
+            "type": "string"
+          },
+          "carrier": {
+            "type": "string"
+          },
+          "shippingAddress": {
+            "type": "string"
+          },
+          "shippingDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "estimatedDeliveryDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "actualDeliveryDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "status": {
+            "type": "string"
+          },
+          "notes": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdBy": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedBy": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      }
+    }
+  }
+}

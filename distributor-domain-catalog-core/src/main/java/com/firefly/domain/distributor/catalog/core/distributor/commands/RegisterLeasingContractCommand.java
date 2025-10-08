@@ -18,7 +18,6 @@ package com.firefly.domain.distributor.catalog.core.distributor.commands;
 
 import com.firefly.common.domain.cqrs.command.Command;
 import com.firefly.core.distributor.sdk.model.LeasingContractDTO;
-import com.firefly.core.distributor.sdk.model.LendingTypeDTO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

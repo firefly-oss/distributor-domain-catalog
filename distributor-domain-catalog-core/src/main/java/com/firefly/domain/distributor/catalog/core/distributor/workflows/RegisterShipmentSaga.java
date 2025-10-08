@@ -1,7 +1,8 @@
 package com.firefly.domain.distributor.catalog.core.distributor.workflows;
 
 import com.firefly.common.domain.cqrs.command.CommandBus;
-import com.firefly.domain.distributor.catalog.core.distributor.commands.*;
+import com.firefly.domain.distributor.catalog.core.distributor.commands.RegisterShipmentCommand;
+import com.firefly.domain.distributor.catalog.core.distributor.commands.RemoveShipmentCommand;
 import com.firefly.transactional.annotations.Saga;
 import com.firefly.transactional.annotations.SagaStep;
 import com.firefly.transactional.annotations.StepEvent;
@@ -13,7 +14,6 @@ import reactor.core.publisher.Mono;
 import java.util.UUID;
 
 import static com.firefly.domain.distributor.catalog.core.utils.constants.DistributorConstants.*;
-import static com.firefly.domain.distributor.catalog.core.utils.constants.GlobalConstants.*;
 
 
 @Saga(name = SAGA_REGISTER_SHIPMENT)

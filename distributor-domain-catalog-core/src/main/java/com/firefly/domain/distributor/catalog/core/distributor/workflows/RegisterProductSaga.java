@@ -1,18 +1,7 @@
 package com.firefly.domain.distributor.catalog.core.distributor.workflows;
 
 import com.firefly.common.domain.cqrs.command.CommandBus;
-import com.firefly.domain.distributor.catalog.core.distributor.commands.RegisterProductInfoCommand;
-import com.firefly.domain.distributor.catalog.core.distributor.commands.RegisterProductCategoryCommand;
-import com.firefly.domain.distributor.catalog.core.distributor.commands.RegisterLendingTypeCommand;
-import com.firefly.domain.distributor.catalog.core.distributor.commands.RegisterLendingConfigurationCommand;
-import com.firefly.domain.distributor.catalog.core.distributor.commands.RegisterLeasingContractCommand;
-import com.firefly.domain.distributor.catalog.core.distributor.commands.RegisterShipmentCommand;
-import com.firefly.domain.distributor.catalog.core.distributor.commands.RemoveProductInfoCommand;
-import com.firefly.domain.distributor.catalog.core.distributor.commands.RemoveProductCategoryCommand;
-import com.firefly.domain.distributor.catalog.core.distributor.commands.RemoveLendingTypeCommand;
-import com.firefly.domain.distributor.catalog.core.distributor.commands.RemoveLendingConfigurationCommand;
-import com.firefly.domain.distributor.catalog.core.distributor.commands.RemoveLeasingContractCommand;
-import com.firefly.domain.distributor.catalog.core.distributor.commands.RemoveShipmentCommand;
+import com.firefly.domain.distributor.catalog.core.distributor.commands.*;
 import com.firefly.transactional.annotations.Saga;
 import com.firefly.transactional.annotations.SagaStep;
 import com.firefly.transactional.annotations.StepEvent;

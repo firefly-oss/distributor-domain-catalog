@@ -1,11 +1,6 @@
 package com.firefly.domain.distributor.catalog.infra;
 
-import com.firefly.core.distributor.sdk.api.LeasingContractApi;
-import com.firefly.core.distributor.sdk.api.LendingConfigurationApi;
-import com.firefly.core.distributor.sdk.api.LendingTypeApi;
-import com.firefly.core.distributor.sdk.api.ProductApi;
-import com.firefly.core.distributor.sdk.api.ProductCategoryApi;
-import com.firefly.core.distributor.sdk.api.ShipmentApi;
+import com.firefly.core.distributor.sdk.api.*;
 import com.firefly.core.distributor.sdk.invoker.ApiClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
