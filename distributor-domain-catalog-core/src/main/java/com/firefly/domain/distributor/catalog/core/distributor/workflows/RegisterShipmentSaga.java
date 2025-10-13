@@ -1,6 +1,6 @@
 package com.firefly.domain.distributor.catalog.core.distributor.workflows;
 
-import com.firefly.common.domain.cqrs.command.CommandBus;
+import com.firefly.common.cqrs.command.CommandBus;
 import com.firefly.domain.distributor.catalog.core.distributor.commands.RegisterShipmentCommand;
 import com.firefly.domain.distributor.catalog.core.distributor.commands.RemoveShipmentCommand;
 import com.firefly.transactional.annotations.Saga;

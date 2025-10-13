@@ -1,6 +1,6 @@
 package com.firefly.domain.distributor.catalog.core.distributor.workflows;
 
-import com.firefly.common.domain.cqrs.command.CommandBus;
+import com.firefly.common.cqrs.command.CommandBus;
 import com.firefly.domain.distributor.catalog.core.distributor.commands.UpdateLeasingContractCommand;
 import com.firefly.domain.distributor.catalog.core.distributor.commands.UpdateLendingConfigurationCommand;
 import com.firefly.domain.distributor.catalog.core.distributor.commands.UpdateProductInfoCommand;

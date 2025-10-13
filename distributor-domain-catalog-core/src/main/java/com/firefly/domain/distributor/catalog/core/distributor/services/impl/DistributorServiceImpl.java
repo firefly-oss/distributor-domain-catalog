@@ -1,6 +1,6 @@
 package com.firefly.domain.distributor.catalog.core.distributor.services.impl;
 
-import com.firefly.common.domain.cqrs.query.QueryBus;
+import com.firefly.common.cqrs.query.QueryBus;
 import com.firefly.core.distributor.sdk.model.ProductDTO;
 import com.firefly.core.distributor.sdk.model.ShipmentDTO;
 import com.firefly.domain.distributor.catalog.core.distributor.commands.*;

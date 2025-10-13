@@ -1,7 +1,7 @@
 package com.firefly.domain.distributor.catalog.core.distributor.handlers;
 
-import com.firefly.common.domain.cqrs.annotations.QueryHandlerComponent;
-import com.firefly.common.domain.cqrs.query.QueryHandler;
+import com.firefly.common.cqrs.annotations.QueryHandlerComponent;
+import com.firefly.common.cqrs.query.QueryHandler;
 import com.firefly.core.distributor.sdk.api.ShipmentApi;
 import com.firefly.core.distributor.sdk.model.ShipmentDTO;
 import com.firefly.domain.distributor.catalog.core.distributor.queries.GetShipmentsQuery;
