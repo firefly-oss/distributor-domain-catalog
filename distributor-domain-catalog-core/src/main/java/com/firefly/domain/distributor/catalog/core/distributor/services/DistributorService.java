@@ -6,9 +6,9 @@ import com.firefly.domain.distributor.catalog.core.distributor.commands.Register
 import com.firefly.domain.distributor.catalog.core.distributor.commands.RegisterShipmentCommand;
 import com.firefly.domain.distributor.catalog.core.distributor.commands.UpdateProductCommand;
 import com.firefly.domain.distributor.catalog.core.distributor.commands.UpdateProductInfoCommand;
-import com.firefly.transactional.core.SagaResult;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import com.firefly.transactional.saga.core.SagaResult;
 
 import java.util.UUID;
 

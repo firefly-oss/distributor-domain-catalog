@@ -5,10 +5,10 @@ import com.firefly.domain.distributor.catalog.core.distributor.commands.UpdateLe
 import com.firefly.domain.distributor.catalog.core.distributor.commands.UpdateLendingConfigurationCommand;
 import com.firefly.domain.distributor.catalog.core.distributor.commands.UpdateProductInfoCommand;
 import com.firefly.domain.distributor.catalog.core.distributor.commands.UpdateShipmentCommand;
-import com.firefly.transactional.annotations.Saga;
-import com.firefly.transactional.annotations.SagaStep;
-import com.firefly.transactional.annotations.StepEvent;
-import com.firefly.transactional.core.SagaContext;
+import com.firefly.transactional.saga.annotations.Saga;
+import com.firefly.transactional.saga.annotations.SagaStep;
+import com.firefly.transactional.saga.annotations.StepEvent;
+import com.firefly.transactional.saga.core.SagaContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
