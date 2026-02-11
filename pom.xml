@@ -11,15 +11,15 @@
     </parent>
 
     <groupId>com.firefly</groupId>
-    <artifactId>distributor-domain-catalog</artifactId>
+    <artifactId>domain-distributor-catalog</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <modules>
-        <module>distributor-domain-catalog-core</module>
-        <module>distributor-domain-catalog-interfaces</module>
-        <module>distributor-domain-catalog-web</module>
-        <module>distributor-domain-catalog-sdk</module>
-        <module>distributor-domain-catalog-infra</module>
+        <module>domain-distributor-catalog-core</module>
+        <module>domain-distributor-catalog-interfaces</module>
+        <module>domain-distributor-catalog-web</module>
+        <module>domain-distributor-catalog-sdk</module>
+        <module>domain-distributor-catalog-infra</module>
     </modules>
 
     <properties>
@@ -43,27 +43,27 @@
             <!-- Internal modules -->
             <dependency>
                 <groupId>com.firefly</groupId>
-                <artifactId>distributor-domain-catalog-core</artifactId>
+                <artifactId>domain-distributor-catalog-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.firefly</groupId>
-                <artifactId>distributor-domain-catalog-interfaces</artifactId>
+                <artifactId>domain-distributor-catalog-interfaces</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.firefly</groupId>
-                <artifactId>distributor-domain-catalog-web</artifactId>
+                <artifactId>domain-distributor-catalog-web</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.firefly</groupId>
-                <artifactId>distributor-domain-catalog-sdk</artifactId>
+                <artifactId>domain-distributor-catalog-sdk</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.firefly</groupId>
-                <artifactId>distributor-domain-catalog-infra</artifactId>
+                <artifactId>domain-distributor-catalog-infra</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>

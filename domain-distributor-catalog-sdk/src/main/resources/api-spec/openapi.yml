@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "title": "distributor-domain-catalog",
+    "title": "domain-distributor-catalog",
     "description": "Distributor Domain Catalog Layer Application",
     "contact": {
       "name": "Firefly Software Solutions Inc",
@@ -11,7 +11,7 @@
   },
   "servers": [
     {
-      "url": "http://core.getfirefly.io/distributor-domain-catalog",
+      "url": "http://core.getfirefly.io/domain-distributor-catalog",
       "description": "Development Environment"
     },
     {

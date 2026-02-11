@@ -1,4 +1,4 @@
-# distributor-domain-catalog
+# domain-distributor-catalog
 
 Domain layer microservice responsible for orchestrating distributor product catalog operations. This service acts as the domain orchestration layer between API consumers and the `common-platform-distributor-mgmt` management service, coordinating multi-step product lifecycle workflows through saga-based distributed transactions with CQRS read-side query support.
 
@@ -20,11 +20,11 @@ The Distributor Domain Catalog service manages the full lifecycle of distributor
 
 | Module | Description |
 |--------|-------------|
-| `distributor-domain-catalog-core` | Business logic: commands, queries, handlers, saga workflows, service interfaces and implementations |
-| `distributor-domain-catalog-interfaces` | Interface adapters connecting core to infrastructure and external boundaries |
-| `distributor-domain-catalog-infra` | Infrastructure layer: API client factory, configuration properties, external service integration |
-| `distributor-domain-catalog-web` | Spring Boot WebFlux application: REST controllers, application entry point, configuration |
-| `distributor-domain-catalog-sdk` | Auto-generated client SDK from OpenAPI spec for downstream consumers |
+| `domain-distributor-catalog-core` | Business logic: commands, queries, handlers, saga workflows, service interfaces and implementations |
+| `domain-distributor-catalog-interfaces` | Interface adapters connecting core to infrastructure and external boundaries |
+| `domain-distributor-catalog-infra` | Infrastructure layer: API client factory, configuration properties, external service integration |
+| `domain-distributor-catalog-web` | Spring Boot WebFlux application: REST controllers, application entry point, configuration |
+| `domain-distributor-catalog-sdk` | Auto-generated client SDK from OpenAPI spec for downstream consumers |
 
 ### Tech Stack
 
@@ -95,7 +95,7 @@ Key configuration from `application.yaml`:
 ```yaml
 spring:
   application:
-    name: distributor-domain-catalog
+    name: domain-distributor-catalog
   threads:
     virtual:
       enabled: true
@@ -147,13 +147,13 @@ mvn clean install
 ### Run
 
 ```bash
-mvn -pl distributor-domain-catalog-web spring-boot:run
+mvn -pl domain-distributor-catalog-web spring-boot:run
 ```
 
 Or run the packaged JAR:
 
 ```bash
-java -jar distributor-domain-catalog-web/target/distributor-domain-catalog.jar
+java -jar domain-distributor-catalog-web/target/domain-distributor-catalog.jar
 ```
 
 ## API Endpoints
@@ -279,4 +279,4 @@ Swagger UI is configured with alphabetical tag sorting, method-based operation s
 
 ## Repository
 
-[https://github.com/firefly-oss/distributor-domain-catalog](https://github.com/firefly-oss/distributor-domain-catalog)
+[https://github.com/firefly-oss/domain-distributor-catalog](https://github.com/firefly-oss/domain-distributor-catalog)

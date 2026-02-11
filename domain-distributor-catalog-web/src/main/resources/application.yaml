@@ -1,6 +1,6 @@
 spring:
   application:
-    name: distributor-domain-catalog
+    name: domain-distributor-catalog
     version: 1.0.0
     description: Distributor Domain Catalog Layer Application
     team:
