@@ -43,8 +43,8 @@ public class ClientFactory {
     }
 
     @Bean
-    public LeasingContractApi leasingContractApi() {
-        return new LeasingContractApi(apiClient);
+    public LendingContractApi lendingContractApi() {
+        return new LendingContractApi(apiClient);
     }
 
     @Bean

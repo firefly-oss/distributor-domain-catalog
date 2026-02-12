@@ -1,6 +1,6 @@
 package com.firefly.domain.distributor.catalog.core.distributor.services.impl;
 
-import com.firefly.common.cqrs.query.QueryBus;
+import org.fireflyframework.cqrs.query.QueryBus;
 import com.firefly.core.distributor.sdk.model.ProductDTO;
 import com.firefly.core.distributor.sdk.model.ShipmentDTO;
 import com.firefly.domain.distributor.catalog.core.distributor.commands.*;
@@ -11,9 +11,9 @@ import com.firefly.domain.distributor.catalog.core.distributor.workflows.Registe
 import com.firefly.domain.distributor.catalog.core.distributor.workflows.RegisterShipmentSaga;
 import com.firefly.domain.distributor.catalog.core.distributor.workflows.UpdateProductSaga;
 import com.firefly.domain.distributor.catalog.core.distributor.workflows.UpdateProductStatusSaga;
-import com.firefly.transactional.saga.core.SagaResult;
-import com.firefly.transactional.saga.engine.SagaEngine;
-import com.firefly.transactional.saga.engine.StepInputs;
+import org.fireflyframework.transactional.saga.core.SagaResult;
+import org.fireflyframework.transactional.saga.engine.SagaEngine;
+import org.fireflyframework.transactional.saga.engine.StepInputs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;

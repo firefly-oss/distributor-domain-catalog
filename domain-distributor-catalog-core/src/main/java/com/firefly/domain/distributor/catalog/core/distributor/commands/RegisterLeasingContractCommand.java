@@ -16,8 +16,8 @@
 
 package com.firefly.domain.distributor.catalog.core.distributor.commands;
 
-import com.firefly.common.cqrs.command.Command;
-import com.firefly.core.distributor.sdk.model.LeasingContractDTO;
+import org.fireflyframework.cqrs.command.Command;
+import com.firefly.core.distributor.sdk.model.LendingContractDTO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -25,7 +25,7 @@ import java.util.UUID;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class RegisterLeasingContractCommand extends LeasingContractDTO implements Command<UUID> {
+public class RegisterLeasingContractCommand extends LendingContractDTO implements Command<UUID> {
     private UUID distributorId;
     private UUID productId;
     private UUID lendingConfigurationId;

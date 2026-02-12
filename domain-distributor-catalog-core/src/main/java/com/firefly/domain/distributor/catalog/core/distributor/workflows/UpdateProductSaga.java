@@ -1,14 +1,14 @@
 package com.firefly.domain.distributor.catalog.core.distributor.workflows;
 
-import com.firefly.common.cqrs.command.CommandBus;
+import org.fireflyframework.cqrs.command.CommandBus;
 import com.firefly.domain.distributor.catalog.core.distributor.commands.UpdateLeasingContractCommand;
 import com.firefly.domain.distributor.catalog.core.distributor.commands.UpdateLendingConfigurationCommand;
 import com.firefly.domain.distributor.catalog.core.distributor.commands.UpdateProductInfoCommand;
 import com.firefly.domain.distributor.catalog.core.distributor.commands.UpdateShipmentCommand;
-import com.firefly.transactional.saga.annotations.Saga;
-import com.firefly.transactional.saga.annotations.SagaStep;
-import com.firefly.transactional.saga.annotations.StepEvent;
-import com.firefly.transactional.saga.core.SagaContext;
+import org.fireflyframework.transactional.saga.annotations.Saga;
+import org.fireflyframework.transactional.saga.annotations.SagaStep;
+import org.fireflyframework.transactional.saga.annotations.StepEvent;
+import org.fireflyframework.transactional.saga.core.SagaContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;

@@ -1,8 +1,8 @@
 package com.firefly.domain.distributor.catalog.core.distributor.handlers;
 
-import com.firefly.common.cqrs.annotations.CommandHandlerComponent;
-import com.firefly.common.cqrs.command.CommandHandler;
-import com.firefly.core.distributor.sdk.api.LeasingContractApi;
+import org.fireflyframework.cqrs.annotations.CommandHandlerComponent;
+import org.fireflyframework.cqrs.command.CommandHandler;
+import com.firefly.core.distributor.sdk.api.LendingContractApi;
 import com.firefly.domain.distributor.catalog.core.distributor.commands.UpdateLeasingContractCommand;
 import reactor.core.publisher.Mono;
 
@@ -12,15 +12,15 @@ import java.util.UUID;
 @CommandHandlerComponent
 public class UpdateLeasingContractHandler extends CommandHandler<UpdateLeasingContractCommand, UUID> {
 
-    private final LeasingContractApi leasingContractApi;
+    private final LendingContractApi lendingContractApi;
 
-    public UpdateLeasingContractHandler(LeasingContractApi leasingContractApi) {
-        this.leasingContractApi = leasingContractApi;
+    public UpdateLeasingContractHandler(LendingContractApi lendingContractApi) {
+        this.lendingContractApi = lendingContractApi;
     }
 
     @Override
     protected Mono<UUID> doHandle(UpdateLeasingContractCommand cmd) {
-        return leasingContractApi.updateLeasingContract(cmd.getId(), cmd, UUID.randomUUID().toString())
+        return lendingContractApi.updateLendingContract(cmd.getId(), cmd, UUID.randomUUID().toString())
                 .mapNotNull(leasingContractDTO ->
                         Objects.requireNonNull(Objects.requireNonNull(leasingContractDTO)).getId());
     }

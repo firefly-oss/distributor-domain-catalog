@@ -1,7 +1,7 @@
 package com.firefly.domain.distributor.catalog.core.distributor.handlers;
 
-import com.firefly.common.cqrs.annotations.QueryHandlerComponent;
-import com.firefly.common.cqrs.query.QueryHandler;
+import org.fireflyframework.cqrs.annotations.QueryHandlerComponent;
+import org.fireflyframework.cqrs.query.QueryHandler;
 import com.firefly.core.distributor.sdk.api.ShipmentApi;
 import com.firefly.core.distributor.sdk.model.ShipmentDTO;
 import com.firefly.domain.distributor.catalog.core.distributor.queries.GetShipmentsQuery;
@@ -19,6 +19,6 @@ public class GetShipmentsHandler extends QueryHandler<GetShipmentsQuery, Flux<Sh
 
     @Override
     protected Mono<Flux<ShipmentDTO>> doHandle(GetShipmentsQuery cmd) {
-        return Mono.just(shipmentApi.getShipmentsByProductId(cmd.getProductId()));
+        return Mono.just(shipmentApi.getShipmentsByProductId(cmd.getProductId(), null));
     }
 }

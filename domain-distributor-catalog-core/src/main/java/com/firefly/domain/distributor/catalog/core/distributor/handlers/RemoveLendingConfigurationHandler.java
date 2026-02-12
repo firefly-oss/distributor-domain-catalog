@@ -1,7 +1,7 @@
 package com.firefly.domain.distributor.catalog.core.distributor.handlers;
 
-import com.firefly.common.cqrs.annotations.CommandHandlerComponent;
-import com.firefly.common.cqrs.command.CommandHandler;
+import org.fireflyframework.cqrs.annotations.CommandHandlerComponent;
+import org.fireflyframework.cqrs.command.CommandHandler;
 import com.firefly.core.distributor.sdk.api.LendingConfigurationApi;
 import com.firefly.domain.distributor.catalog.core.distributor.commands.RemoveLendingConfigurationCommand;
 import reactor.core.publisher.Mono;
@@ -17,6 +17,6 @@ public class RemoveLendingConfigurationHandler extends CommandHandler<RemoveLend
 
     @Override
     protected Mono<Void> doHandle(RemoveLendingConfigurationCommand cmd) {
-        return lendingConfigurationApi.deleteLendingConfiguration(cmd.distributorId(), cmd.productId(), cmd.lendingConfigurationId());
+        return lendingConfigurationApi.deleteLendingConfiguration(cmd.distributorId(), cmd.productId(), cmd.lendingConfigurationId(), null);
     }
 }
