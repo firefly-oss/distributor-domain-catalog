@@ -11,9 +11,9 @@ import com.firefly.domain.distributor.catalog.core.distributor.workflows.Registe
 import com.firefly.domain.distributor.catalog.core.distributor.workflows.RegisterShipmentSaga;
 import com.firefly.domain.distributor.catalog.core.distributor.workflows.UpdateProductSaga;
 import com.firefly.domain.distributor.catalog.core.distributor.workflows.UpdateProductStatusSaga;
-import org.fireflyframework.transactional.saga.core.SagaResult;
-import org.fireflyframework.transactional.saga.engine.SagaEngine;
-import org.fireflyframework.transactional.saga.engine.StepInputs;
+import org.fireflyframework.orchestration.saga.engine.SagaResult;
+import org.fireflyframework.orchestration.saga.engine.SagaEngine;
+import org.fireflyframework.orchestration.saga.engine.StepInputs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
@@ -36,16 +36,16 @@ public class DistributorServiceImpl implements DistributorService {
     @Override
     public Mono<SagaResult> registerProduct(UUID distributorId, RegisterProductCommand command) {
         StepInputs inputs = StepInputs.builder()
-                .forStep(RegisterProductSaga::registerProductCategory, command.getProductCategory())
-                .forStep(RegisterProductSaga::registerProduct, command.getProductInfo().withDistributorId(distributorId))
-                .forStep(RegisterProductSaga::registerLendingType, command.getLendingType())
-                .forStep(RegisterProductSaga::registerLendingConfiguration, command.getLendingConfiguration())
-                .forStep(RegisterProductSaga::registerLeasingContract, command.getLeasingContract())
-                .forStep(RegisterProductSaga::registerShipment, command.getShipment())
+                .forStepId("registerProductCategory", command.getProductCategory())
+                .forStepId("registerProduct", command.getProductInfo().withDistributorId(distributorId))
+                .forStepId("registerLendingType", command.getLendingType())
+                .forStepId("registerLendingConfiguration", command.getLendingConfiguration())
+                .forStepId("registerLeasingContract", command.getLeasingContract())
+                .forStepId("registerShipment", command.getShipment())
 
                 .build();
 
-        return engine.execute(RegisterProductSaga.class, inputs);
+        return engine.execute("RegisterProductSaga", inputs);
     }
 
     @Override
@@ -56,25 +56,25 @@ public class DistributorServiceImpl implements DistributorService {
     @Override
     public Mono<SagaResult> reviseProduct(UUID distributorId, UUID productId, UpdateProductCommand command) {
         StepInputs inputs = StepInputs.builder()
-                .forStep(UpdateProductSaga::updateProductInfo, command.getProductInfo()
+                .forStepId("updateProductInfo", command.getProductInfo()
                         .withDistributorId(distributorId)
                         .withId(productId))
-                .forStep(UpdateProductSaga::updateLendingConfiguration, command.getLendingConfiguration()
+                .forStepId("updateLendingConfiguration", command.getLendingConfiguration()
                         .withProductId(productId))
-                .forStep(UpdateProductSaga::updateLeasingContract, command.getLeasingContract()
+                .forStepId("updateLeasingContract", command.getLeasingContract()
                         .withDistributorId(distributorId)
                         .withProductId(productId))
-                .forStep(UpdateProductSaga::updateShipment, command.getShipment()
+                .forStepId("updateShipment", command.getShipment()
                         .withProductId(productId))
                 .build();
 
-        return engine.execute(UpdateProductSaga.class, inputs);
+        return engine.execute("UpdateProductSaga", inputs);
     }
 
     @Override
     public Mono<SagaResult> retireProduct(UUID distributorId, UUID productId, UpdateProductInfoCommand command) {
         StepInputs inputs = StepInputs.builder()
-                .forStep(UpdateProductStatusSaga::retireProduct, RetireProductCommand.builder()
+                .forStepId("updateProduct", RetireProductCommand.builder()
                         .id(productId)
                         .distributorId(distributorId)
                         .name(command.getName())
@@ -82,7 +82,7 @@ public class DistributorServiceImpl implements DistributorService {
                         .build())
                 .build();
 
-        return engine.execute(UpdateProductStatusSaga.class, inputs);
+        return engine.execute("UpdateProductStatusSaga", inputs);
     }
 
     @Override
@@ -93,10 +93,10 @@ public class DistributorServiceImpl implements DistributorService {
     @Override
     public Mono<SagaResult> registerShipment(UUID distributorId, UUID productId, RegisterShipmentCommand command) {
         StepInputs inputs = StepInputs.builder()
-                .forStep(RegisterShipmentSaga::registerShipment, command.withProductId(productId))
+                .forStepId("registerShipment", command.withProductId(productId))
                 .build();
 
-        return engine.execute(RegisterShipmentSaga.class, inputs);
+        return engine.execute("RegisterShipmentSaga", inputs);
     }
 
 }
