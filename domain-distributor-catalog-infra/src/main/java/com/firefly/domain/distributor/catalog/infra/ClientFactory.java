@@ -52,4 +52,9 @@ public class ClientFactory {
         return new ShipmentApi(apiClient);
     }
 
+    @Bean
+    public DistributorSimulationsApi distributorSimulationsApi() {
+        return new DistributorSimulationsApi(apiClient);
+    }
+
 }
