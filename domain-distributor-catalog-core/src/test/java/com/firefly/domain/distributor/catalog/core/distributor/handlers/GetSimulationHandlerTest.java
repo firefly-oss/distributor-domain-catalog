@@ -44,8 +44,7 @@ class GetSimulationHandlerTest {
         DistributorSimulationDTO responseDTO = new DistributorSimulationDTO(
                 simulationId, null, null, null, null);
 
-        when(distributorSimulationsApi.getDistributorSimulationById(
-                distributorId, simulationId, null))
+        when(distributorSimulationsApi.getDistributorSimulationById(distributorId, simulationId))
                 .thenReturn(Mono.just(responseDTO));
 
         StepVerifier.create(handler.doHandle(query))
@@ -65,8 +64,7 @@ class GetSimulationHandlerTest {
 
         RuntimeException exception = new RuntimeException("API failure");
 
-        when(distributorSimulationsApi.getDistributorSimulationById(
-                distributorId, simulationId, null))
+        when(distributorSimulationsApi.getDistributorSimulationById(distributorId, simulationId))
                 .thenReturn(Mono.error(exception));
 
         StepVerifier.create(handler.doHandle(query))

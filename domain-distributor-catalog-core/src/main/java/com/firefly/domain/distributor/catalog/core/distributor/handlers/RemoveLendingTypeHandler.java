@@ -17,6 +17,6 @@ public class RemoveLendingTypeHandler extends CommandHandler<RemoveLendingTypeCo
 
     @Override
     protected Mono<Void> doHandle(RemoveLendingTypeCommand cmd) {
-        return lendingTypeApi.deleteLendingType(cmd.lendingTypeId(), null);
+        return lendingTypeApi.deleteLendingType(cmd.lendingTypeId());
     }
 }

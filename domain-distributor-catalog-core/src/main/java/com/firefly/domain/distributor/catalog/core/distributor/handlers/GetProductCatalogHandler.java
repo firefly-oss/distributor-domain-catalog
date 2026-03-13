@@ -19,6 +19,6 @@ public class GetProductCatalogHandler extends QueryHandler<GetProductCatalogQuer
 
     @Override
     protected Mono<Flux<ProductDTO>> doHandle(GetProductCatalogQuery cmd) {
-        return Mono.just(productApi.getProductsByDistributorId(cmd.getDistributorId(), null));
+        return Mono.just(productApi.getProductsByDistributorId(cmd.getDistributorId()));
     }
 }

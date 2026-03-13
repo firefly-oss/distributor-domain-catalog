@@ -19,6 +19,6 @@ public class GetShipmentsHandler extends QueryHandler<GetShipmentsQuery, Flux<Sh
 
     @Override
     protected Mono<Flux<ShipmentDTO>> doHandle(GetShipmentsQuery cmd) {
-        return Mono.just(shipmentApi.getShipmentsByProductId(cmd.getProductId(), null));
+        return Mono.just(shipmentApi.getShipmentsByProductId(cmd.getProductId()));
     }
 }

@@ -17,6 +17,6 @@ public class RemoveLendingConfigurationHandler extends CommandHandler<RemoveLend
 
     @Override
     protected Mono<Void> doHandle(RemoveLendingConfigurationCommand cmd) {
-        return lendingConfigurationApi.deleteLendingConfiguration(cmd.distributorId(), cmd.productId(), cmd.lendingConfigurationId(), null);
+        return lendingConfigurationApi.deleteLendingConfiguration(cmd.distributorId(), cmd.productId(), cmd.lendingConfigurationId());
     }
 }

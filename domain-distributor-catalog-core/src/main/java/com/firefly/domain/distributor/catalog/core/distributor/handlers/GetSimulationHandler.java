@@ -23,6 +23,6 @@ public class GetSimulationHandler extends QueryHandler<GetSimulationQuery, Distr
     @Override
     protected Mono<DistributorSimulationDTO> doHandle(GetSimulationQuery cmd) {
         return distributorSimulationsApi.getDistributorSimulationById(
-                cmd.getDistributorId(), cmd.getSimulationId(), null);
+                cmd.getDistributorId(), cmd.getSimulationId());
     }
 }

@@ -17,6 +17,6 @@ public class RemoveShipmentHandler extends CommandHandler<RemoveShipmentCommand,
 
     @Override
     protected Mono<Void> doHandle(RemoveShipmentCommand cmd) {
-        return shipmentApi.deleteShipment(cmd.shipmentId(), null);
+        return shipmentApi.deleteShipment(cmd.shipmentId());
     }
 }
