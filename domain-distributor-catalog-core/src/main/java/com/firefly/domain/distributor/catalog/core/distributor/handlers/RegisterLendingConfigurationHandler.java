@@ -20,7 +20,7 @@ public class RegisterLendingConfigurationHandler extends CommandHandler<Register
 
     @Override
     protected Mono<UUID> doHandle(RegisterLendingConfigurationCommand cmd) {
-        return lendingConfigurationApi.createLendingConfiguration(UUID.randomUUID(), cmd.getProductId(), cmd)
+        return lendingConfigurationApi.createLendingConfiguration(UUID.randomUUID(), cmd.getProductId(), cmd, UUID.randomUUID().toString())
                 .mapNotNull(lendingConfigurationDTO ->
                         Objects.requireNonNull(Objects.requireNonNull(lendingConfigurationDTO)).getId());
     }

@@ -5,6 +5,7 @@ import org.fireflyframework.cqrs.command.CommandHandler;
 import com.firefly.core.distributor.sdk.api.LendingConfigurationApi;
 import com.firefly.domain.distributor.catalog.core.distributor.commands.RemoveLendingConfigurationCommand;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 @CommandHandlerComponent
 public class RemoveLendingConfigurationHandler extends CommandHandler<RemoveLendingConfigurationCommand, Void> {
@@ -17,6 +18,6 @@ public class RemoveLendingConfigurationHandler extends CommandHandler<RemoveLend
 
     @Override
     protected Mono<Void> doHandle(RemoveLendingConfigurationCommand cmd) {
-        return lendingConfigurationApi.deleteLendingConfiguration(cmd.distributorId(), cmd.productId(), cmd.lendingConfigurationId());
+        return lendingConfigurationApi.deleteLendingConfiguration(cmd.distributorId(), cmd.productId(), cmd.lendingConfigurationId(), UUID.randomUUID().toString());
     }
 }

@@ -20,7 +20,7 @@ public class RetireProductHandler extends CommandHandler<RetireProductCommand, U
 
     @Override
     protected Mono<UUID> doHandle(RetireProductCommand cmd) {
-        return productApi.updateProduct(cmd.getDistributorId(), cmd.getId(), cmd)
+        return productApi.updateProduct(cmd.getDistributorId(), cmd.getId(), cmd, UUID.randomUUID().toString())
                 .mapNotNull(partyStatusDTO ->
                         Objects.requireNonNull(Objects.requireNonNull(partyStatusDTO).getId()));
     }

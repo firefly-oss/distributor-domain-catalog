@@ -5,6 +5,7 @@ import org.fireflyframework.cqrs.command.CommandHandler;
 import com.firefly.core.distributor.sdk.api.ProductCategoryApi;
 import com.firefly.domain.distributor.catalog.core.distributor.commands.RemoveProductCategoryCommand;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 @CommandHandlerComponent
 public class RemoveProductCategoryHandler extends CommandHandler<RemoveProductCategoryCommand, Void> {
@@ -17,6 +18,6 @@ public class RemoveProductCategoryHandler extends CommandHandler<RemoveProductCa
 
     @Override
     protected Mono<Void> doHandle(RemoveProductCategoryCommand cmd) {
-        return productCategoryApi.deleteProductCategory(cmd.getCategoryId());
+        return productCategoryApi.deleteProductCategory(cmd.getCategoryId(), UUID.randomUUID().toString());
     }
 }

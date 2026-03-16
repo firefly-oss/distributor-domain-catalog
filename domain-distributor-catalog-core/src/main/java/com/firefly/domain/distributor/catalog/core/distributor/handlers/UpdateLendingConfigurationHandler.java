@@ -20,7 +20,7 @@ public class UpdateLendingConfigurationHandler extends CommandHandler<UpdateLend
 
     @Override
     protected Mono<UUID> doHandle(UpdateLendingConfigurationCommand cmd) {
-        return lendingConfigurationApi.updateLendingConfiguration(UUID.randomUUID(), cmd.getProductId(), cmd.getId(), cmd)
+        return lendingConfigurationApi.updateLendingConfiguration(UUID.randomUUID(), cmd.getProductId(), cmd.getId(), cmd, UUID.randomUUID().toString())
                 .mapNotNull(lendingConfigurationDTO ->
                         Objects.requireNonNull(Objects.requireNonNull(lendingConfigurationDTO)).getId());
     }

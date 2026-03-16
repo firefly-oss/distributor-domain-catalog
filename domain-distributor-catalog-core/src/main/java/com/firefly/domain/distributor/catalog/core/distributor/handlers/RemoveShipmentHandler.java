@@ -5,6 +5,7 @@ import org.fireflyframework.cqrs.command.CommandHandler;
 import com.firefly.core.distributor.sdk.api.ShipmentApi;
 import com.firefly.domain.distributor.catalog.core.distributor.commands.RemoveShipmentCommand;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 @CommandHandlerComponent
 public class RemoveShipmentHandler extends CommandHandler<RemoveShipmentCommand, Void> {
@@ -17,6 +18,6 @@ public class RemoveShipmentHandler extends CommandHandler<RemoveShipmentCommand,
 
     @Override
     protected Mono<Void> doHandle(RemoveShipmentCommand cmd) {
-        return shipmentApi.deleteShipment(cmd.shipmentId());
+        return shipmentApi.deleteShipment(cmd.shipmentId(), UUID.randomUUID().toString());
     }
 }

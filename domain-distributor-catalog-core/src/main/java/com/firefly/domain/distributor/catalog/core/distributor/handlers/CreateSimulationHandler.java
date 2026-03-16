@@ -24,7 +24,7 @@ public class CreateSimulationHandler extends CommandHandler<CreateSimulationComm
 
     @Override
     protected Mono<UUID> doHandle(CreateSimulationCommand cmd) {
-        return distributorSimulationsApi.createDistributorSimulation(cmd.getDistributorId(), cmd)
+        return distributorSimulationsApi.createDistributorSimulation(cmd.getDistributorId(), cmd, UUID.randomUUID().toString())
                 .mapNotNull(simulationDTO -> Objects.requireNonNull(simulationDTO).getId());
     }
 }

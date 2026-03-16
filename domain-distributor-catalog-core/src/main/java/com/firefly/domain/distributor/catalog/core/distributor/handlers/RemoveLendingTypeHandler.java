@@ -5,6 +5,7 @@ import org.fireflyframework.cqrs.command.CommandHandler;
 import com.firefly.core.distributor.sdk.api.LendingTypeApi;
 import com.firefly.domain.distributor.catalog.core.distributor.commands.RemoveLendingTypeCommand;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 @CommandHandlerComponent
 public class RemoveLendingTypeHandler extends CommandHandler<RemoveLendingTypeCommand, Void> {
@@ -17,6 +18,6 @@ public class RemoveLendingTypeHandler extends CommandHandler<RemoveLendingTypeCo
 
     @Override
     protected Mono<Void> doHandle(RemoveLendingTypeCommand cmd) {
-        return lendingTypeApi.deleteLendingType(cmd.lendingTypeId());
+        return lendingTypeApi.deleteLendingType(cmd.lendingTypeId(), UUID.randomUUID().toString());
     }
 }

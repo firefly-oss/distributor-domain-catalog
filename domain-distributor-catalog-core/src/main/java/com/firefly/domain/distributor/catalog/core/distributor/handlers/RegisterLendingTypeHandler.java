@@ -20,7 +20,7 @@ public class RegisterLendingTypeHandler extends CommandHandler<RegisterLendingTy
 
     @Override
     protected Mono<UUID> doHandle(RegisterLendingTypeCommand cmd) {
-        return lendingTypeApi.createLendingType(cmd)
+        return lendingTypeApi.createLendingType(cmd, UUID.randomUUID().toString())
                 .mapNotNull(lendingTypeDTO ->
                         Objects.requireNonNull(Objects.requireNonNull(lendingTypeDTO)).getId());
     }

@@ -20,7 +20,7 @@ public class RegisterLeasingContractHandler extends CommandHandler<RegisterLeasi
 
     @Override
     protected Mono<UUID> doHandle(RegisterLeasingContractCommand cmd) {
-        return lendingContractApi.createLendingContract(cmd)
+        return lendingContractApi.createLendingContract(cmd, UUID.randomUUID().toString())
                 .mapNotNull(leasingContractDTO ->
                         Objects.requireNonNull(Objects.requireNonNull(leasingContractDTO)).getId());
     }

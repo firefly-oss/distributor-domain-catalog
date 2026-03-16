@@ -6,6 +6,7 @@ import com.firefly.domain.distributor.catalog.core.distributor.queries.GetSimula
 import org.fireflyframework.cqrs.annotations.QueryHandlerComponent;
 import org.fireflyframework.cqrs.query.QueryHandler;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 /**
  * Handler that processes {@link GetSimulationQuery} by delegating to the
@@ -23,6 +24,6 @@ public class GetSimulationHandler extends QueryHandler<GetSimulationQuery, Distr
     @Override
     protected Mono<DistributorSimulationDTO> doHandle(GetSimulationQuery cmd) {
         return distributorSimulationsApi.getDistributorSimulationById(
-                cmd.getDistributorId(), cmd.getSimulationId());
+                cmd.getDistributorId(), cmd.getSimulationId(), UUID.randomUUID().toString());
     }
 }

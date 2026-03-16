@@ -20,7 +20,7 @@ public class UpdateShipmentHandler extends CommandHandler<UpdateShipmentCommand,
 
     @Override
     protected Mono<UUID> doHandle(UpdateShipmentCommand cmd) {
-        return shipmentApi.updateShipment(cmd.getId(), cmd)
+        return shipmentApi.updateShipment(cmd.getId(), cmd, UUID.randomUUID().toString())
                 .mapNotNull(shipmentDTO ->
                         Objects.requireNonNull(Objects.requireNonNull(shipmentDTO)).getId());
     }

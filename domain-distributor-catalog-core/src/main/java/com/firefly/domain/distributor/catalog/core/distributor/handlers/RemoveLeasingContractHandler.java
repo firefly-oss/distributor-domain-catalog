@@ -19,6 +19,6 @@ public class RemoveLeasingContractHandler extends CommandHandler<RemoveLeasingCo
 
     @Override
     protected Mono<Void> doHandle(RemoveLeasingContractCommand cmd) {
-        return lendingContractApi.deleteLendingContract(cmd.leasingContractId());
+        return lendingContractApi.deleteLendingContract(cmd.leasingContractId(), UUID.randomUUID().toString());
     }
 }

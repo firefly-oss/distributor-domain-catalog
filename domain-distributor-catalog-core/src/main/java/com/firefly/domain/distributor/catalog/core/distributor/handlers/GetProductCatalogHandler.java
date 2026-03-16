@@ -7,6 +7,7 @@ import com.firefly.core.distributor.sdk.model.ProductDTO;
 import com.firefly.domain.distributor.catalog.core.distributor.queries.GetProductCatalogQuery;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 @QueryHandlerComponent(cacheable = false)
 public class GetProductCatalogHandler extends QueryHandler<GetProductCatalogQuery, Flux<ProductDTO>> {
@@ -19,6 +20,6 @@ public class GetProductCatalogHandler extends QueryHandler<GetProductCatalogQuer
 
     @Override
     protected Mono<Flux<ProductDTO>> doHandle(GetProductCatalogQuery cmd) {
-        return Mono.just(productApi.getProductsByDistributorId(cmd.getDistributorId()));
+        return Mono.just(productApi.getProductsByDistributorId(cmd.getDistributorId(), UUID.randomUUID().toString()));
     }
 }

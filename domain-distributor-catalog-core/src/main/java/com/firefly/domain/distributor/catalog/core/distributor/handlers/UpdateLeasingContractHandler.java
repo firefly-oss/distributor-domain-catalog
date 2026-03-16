@@ -20,7 +20,7 @@ public class UpdateLeasingContractHandler extends CommandHandler<UpdateLeasingCo
 
     @Override
     protected Mono<UUID> doHandle(UpdateLeasingContractCommand cmd) {
-        return lendingContractApi.updateLendingContract(cmd.getId(), cmd)
+        return lendingContractApi.updateLendingContract(cmd.getId(), cmd, UUID.randomUUID().toString())
                 .mapNotNull(leasingContractDTO ->
                         Objects.requireNonNull(Objects.requireNonNull(leasingContractDTO)).getId());
     }

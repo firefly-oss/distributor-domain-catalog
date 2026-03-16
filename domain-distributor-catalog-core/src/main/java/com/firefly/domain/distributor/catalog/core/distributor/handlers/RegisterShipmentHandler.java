@@ -20,7 +20,7 @@ public class RegisterShipmentHandler extends CommandHandler<RegisterShipmentComm
 
     @Override
     protected Mono<UUID> doHandle(RegisterShipmentCommand cmd) {
-        return shipmentApi.createShipment(cmd)
+        return shipmentApi.createShipment(cmd, UUID.randomUUID().toString())
                 .mapNotNull(shipmentDTO ->
                         Objects.requireNonNull(Objects.requireNonNull(shipmentDTO)).getId());
     }
