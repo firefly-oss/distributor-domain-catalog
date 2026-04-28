@@ -1,0 +1,1216 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+- url: http://localhost:18080
+  description: Generated server url
+tags:
+- name: Distributor
+  description: CQ queries and registration for Distributors
+- name: Simulations
+  description: Distributor simulation operations
+- name: Shipment Queries
+  description: Query endpoints for shipment look-ups
+paths:
+  /api/v1/distributors/{distributorId}/products/{productId}:
+    put:
+      tags:
+      - Distributor
+      summary: Revise product
+      description: Revise product details and financing configurations.
+      operationId: reviseProduct
+      parameters:
+      - name: distributorId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: productId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: X-Idempotency-Key
+        in: header
+        description: "Unique key for idempotent requests. If provided, ensures that\
+          \ identical requests with the same key will only be processed once."
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateProductCommand"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+    delete:
+      tags:
+      - Distributor
+      summary: Retire product
+      description: Retire product ensuring no active contracts are linked.
+      operationId: retireProduct
+      parameters:
+      - name: distributorId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: productId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: X-Idempotency-Key
+        in: header
+        description: "Unique key for idempotent requests. If provided, ensures that\
+          \ identical requests with the same key will only be processed once."
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateProductInfoCommand"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+  /api/v1/catalog/shipments/{shipmentId}:
+    get:
+      tags:
+      - Shipment Queries
+      summary: Get shipment by ID
+      description: Retrieve a single shipment by its unique identifier.
+      operationId: getShipment
+      parameters:
+      - name: shipmentId
+        in: path
+        description: Shipment identifier
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: X-Idempotency-Key
+        in: header
+        description: "Unique key for idempotent requests. If provided, ensures that\
+          \ identical requests with the same key will only be processed once."
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ShipmentDTO"
+    put:
+      tags:
+      - Shipment Queries
+      summary: Update shipment
+      description: Update an existing shipment.
+      operationId: updateShipment
+      parameters:
+      - name: shipmentId
+        in: path
+        description: Shipment identifier
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: X-Idempotency-Key
+        in: header
+        description: "Unique key for idempotent requests. If provided, ensures that\
+          \ identical requests with the same key will only be processed once."
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ShipmentDTO"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ShipmentDTO"
+    delete:
+      tags:
+      - Shipment Queries
+      summary: Delete shipment
+      description: Delete a shipment by its identifier.
+      operationId: deleteShipment
+      parameters:
+      - name: shipmentId
+        in: path
+        description: Shipment identifier
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: X-Idempotency-Key
+        in: header
+        description: "Unique key for idempotent requests. If provided, ensures that\
+          \ identical requests with the same key will only be processed once."
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+  /api/v1/catalog/shipments/{shipmentId}/status:
+    put:
+      tags:
+      - Shipment Queries
+      summary: Update shipment status
+      description: Update the status of a shipment.
+      operationId: updateShipmentStatus
+      parameters:
+      - name: shipmentId
+        in: path
+        description: Shipment identifier
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: status
+        in: query
+        description: New status
+        required: true
+        schema:
+          type: string
+      - name: updatedBy
+        in: query
+        description: ID of the user updating the status
+        required: false
+        schema:
+          type: string
+          format: uuid
+      - name: X-Idempotency-Key
+        in: header
+        description: "Unique key for idempotent requests. If provided, ensures that\
+          \ identical requests with the same key will only be processed once."
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ShipmentDTO"
+  /api/v1/distributors/{distributorId}/simulations:
+    post:
+      tags:
+      - Simulations
+      summary: Create simulation
+      description: Create a new simulation for the specified distributor.
+      operationId: createSimulation
+      parameters:
+      - name: distributorId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: X-Idempotency-Key
+        in: header
+        description: "Unique key for idempotent requests. If provided, ensures that\
+          \ identical requests with the same key will only be processed once."
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateSimulationCommand"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+                format: uuid
+  /api/v1/distributors/{distributorId}/products:
+    get:
+      tags:
+      - Distributor
+      summary: List catalog
+      description: Retrieve distributor's unified product catalog.
+      operationId: listCatalog
+      parameters:
+      - name: distributorId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: X-Idempotency-Key
+        in: header
+        description: "Unique key for idempotent requests. If provided, ensures that\
+          \ identical requests with the same key will only be processed once."
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ProductDTO"
+    post:
+      tags:
+      - Distributor
+      summary: Submit application
+      description: "Submit an application with product, amount, currency, and channel."
+      operationId: registerProduct
+      parameters:
+      - name: distributorId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: X-Idempotency-Key
+        in: header
+        description: "Unique key for idempotent requests. If provided, ensures that\
+          \ identical requests with the same key will only be processed once."
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegisterProductCommand"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+  /api/v1/distributors/{distributorId}/products/{productId}/shipments:
+    get:
+      tags:
+      - Distributor
+      summary: Track product shipments
+      description: Track shipments associated with a product.
+      operationId: trackProductShipments
+      parameters:
+      - name: distributorId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: productId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: X-Idempotency-Key
+        in: header
+        description: "Unique key for idempotent requests. If provided, ensures that\
+          \ identical requests with the same key will only be processed once."
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ShipmentDTO"
+    post:
+      tags:
+      - Distributor
+      summary: Ship contract item
+      description: Register shipment related to a leasing contract.
+      operationId: shipContractItem
+      parameters:
+      - name: distributorId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: productId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: X-Idempotency-Key
+        in: header
+        description: "Unique key for idempotent requests. If provided, ensures that\
+          \ identical requests with the same key will only be processed once."
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegisterShipmentCommand"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+  /api/v1/distributors/{distributorId}/simulations/{simulationId}:
+    get:
+      tags:
+      - Simulations
+      summary: Get simulation
+      description: Retrieve a simulation by its identifier for a given distributor.
+      operationId: getSimulation
+      parameters:
+      - name: distributorId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: simulationId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: X-Idempotency-Key
+        in: header
+        description: "Unique key for idempotent requests. If provided, ensures that\
+          \ identical requests with the same key will only be processed once."
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/DistributorSimulationDTO"
+  /api/v1/catalog/shipments:
+    get:
+      tags:
+      - Shipment Queries
+      summary: List shipments
+      description: Retrieve all shipments for a given distributor and product.
+      operationId: listShipments
+      parameters:
+      - name: distributorId
+        in: query
+        description: Distributor identifier
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: productId
+        in: query
+        description: Product identifier
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: X-Idempotency-Key
+        in: header
+        description: "Unique key for idempotent requests. If provided, ensures that\
+          \ identical requests with the same key will only be processed once."
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ShipmentDTO"
+  /api/v1/catalog/contracts/{contractId}/shipments:
+    get:
+      tags:
+      - Shipment Queries
+      summary: Get shipments by contract
+      description: Retrieve shipments associated with a lending contract.
+      operationId: getShipmentsByContract
+      parameters:
+      - name: contractId
+        in: path
+        description: Lending contract identifier
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: X-Idempotency-Key
+        in: header
+        description: "Unique key for idempotent requests. If provided, ensures that\
+          \ identical requests with the same key will only be processed once."
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ShipmentDTO"
+components:
+  schemas:
+    UpdateLeasingContractCommand:
+      required:
+      - contractId
+      - distributorId
+      - downPayment
+      - endDate
+      - lendingConfigurationId
+      - monthlyPayment
+      - partyId
+      - productId
+      - startDate
+      - totalAmount
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        contractId:
+          type: string
+          format: uuid
+        partyId:
+          type: string
+          format: uuid
+        distributorId:
+          type: string
+          format: uuid
+        productId:
+          type: string
+          format: uuid
+        lendingConfigurationId:
+          type: string
+          format: uuid
+        originatingAgentId:
+          type: string
+          format: uuid
+        agencyId:
+          type: string
+          format: uuid
+        startDate:
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+        monthlyPayment:
+          type: number
+        downPayment:
+          type: number
+        totalAmount:
+          type: number
+        status:
+          type: string
+        approvalDate:
+          type: string
+          format: date-time
+        approvedBy:
+          type: string
+          format: uuid
+        termsConditions:
+          type: string
+        notes:
+          type: string
+        isActive:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+        createdBy:
+          type: string
+          format: uuid
+        updatedAt:
+          type: string
+          format: date-time
+        updatedBy:
+          type: string
+          format: uuid
+    UpdateLendingConfigurationCommand:
+      required:
+      - defaultTermMonths
+      - lendingTypeId
+      - maxTermMonths
+      - minTermMonths
+      - name
+      - productId
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        productId:
+          type: string
+          format: uuid
+        name:
+          type: string
+        description:
+          type: string
+        lendingTypeId:
+          type: string
+          format: uuid
+        minTermMonths:
+          type: integer
+          format: int32
+        maxTermMonths:
+          type: integer
+          format: int32
+        defaultTermMonths:
+          type: integer
+          format: int32
+        minDownPaymentPercentage:
+          type: number
+        defaultDownPaymentPercentage:
+          type: number
+        interestRate:
+          type: number
+        processingFeePercentage:
+          type: number
+        earlyTerminationFeePercentage:
+          type: number
+        latePaymentFeeAmount:
+          type: number
+        gracePeriodDays:
+          type: integer
+          format: int32
+        isDefault:
+          type: boolean
+        isActive:
+          type: boolean
+        termsConditions:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        createdBy:
+          type: string
+          format: uuid
+        updatedAt:
+          type: string
+          format: date-time
+        updatedBy:
+          type: string
+          format: uuid
+    UpdateProductCommand:
+      type: object
+      properties:
+        productInfo:
+          $ref: "#/components/schemas/UpdateProductInfoCommand"
+        lendingConfiguration:
+          $ref: "#/components/schemas/UpdateLendingConfigurationCommand"
+        leasingContract:
+          $ref: "#/components/schemas/UpdateLeasingContractCommand"
+        shipment:
+          $ref: "#/components/schemas/UpdateShipmentCommand"
+    UpdateProductInfoCommand:
+      required:
+      - distributorId
+      - name
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        distributorId:
+          type: string
+          format: uuid
+        name:
+          type: string
+        description:
+          type: string
+        sku:
+          type: string
+        modelNumber:
+          type: string
+        manufacturer:
+          type: string
+        categoryId:
+          type: string
+          format: uuid
+        imageUrl:
+          type: string
+        specifications:
+          type: string
+        isActive:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+        createdBy:
+          type: string
+          format: uuid
+        updatedAt:
+          type: string
+          format: date-time
+        updatedBy:
+          type: string
+          format: uuid
+    UpdateShipmentCommand:
+      required:
+      - lendingContractId
+      - productId
+      - shippingAddress
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        lendingContractId:
+          type: string
+          format: uuid
+        productId:
+          type: string
+          format: uuid
+        trackingNumber:
+          type: string
+        carrier:
+          type: string
+        shippingAddress:
+          type: string
+        shippingDate:
+          type: string
+          format: date-time
+        estimatedDeliveryDate:
+          type: string
+          format: date-time
+        actualDeliveryDate:
+          type: string
+          format: date-time
+        status:
+          type: string
+        notes:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        createdBy:
+          type: string
+          format: uuid
+        updatedAt:
+          type: string
+          format: date-time
+        updatedBy:
+          type: string
+          format: uuid
+    ShipmentDTO:
+      required:
+      - lendingContractId
+      - productId
+      - shippingAddress
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        lendingContractId:
+          type: string
+          format: uuid
+        productId:
+          type: string
+          format: uuid
+        trackingNumber:
+          type: string
+        carrier:
+          type: string
+        shippingAddress:
+          type: string
+        shippingDate:
+          type: string
+          format: date-time
+        estimatedDeliveryDate:
+          type: string
+          format: date-time
+        actualDeliveryDate:
+          type: string
+          format: date-time
+        status:
+          type: string
+        notes:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        createdBy:
+          type: string
+          format: uuid
+        updatedAt:
+          type: string
+          format: date-time
+        updatedBy:
+          type: string
+          format: uuid
+    CreateSimulationCommand:
+      required:
+      - applicationId
+      - distributorId
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        distributorId:
+          type: string
+          format: uuid
+        applicationId:
+          type: string
+          format: uuid
+        agentId:
+          type: string
+          format: uuid
+        agencyId:
+          type: string
+          format: uuid
+        simulationStatus:
+          type: string
+        notes:
+          type: string
+        isActive:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+        createdBy:
+          type: string
+          format: uuid
+        updatedAt:
+          type: string
+          format: date-time
+        updatedBy:
+          type: string
+          format: uuid
+    RegisterLeasingContractCommand:
+      required:
+      - contractId
+      - distributorId
+      - downPayment
+      - endDate
+      - lendingConfigurationId
+      - monthlyPayment
+      - partyId
+      - productId
+      - startDate
+      - totalAmount
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        contractId:
+          type: string
+          format: uuid
+        partyId:
+          type: string
+          format: uuid
+        distributorId:
+          type: string
+          format: uuid
+        productId:
+          type: string
+          format: uuid
+        lendingConfigurationId:
+          type: string
+          format: uuid
+        originatingAgentId:
+          type: string
+          format: uuid
+        agencyId:
+          type: string
+          format: uuid
+        startDate:
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+        monthlyPayment:
+          type: number
+        downPayment:
+          type: number
+        totalAmount:
+          type: number
+        status:
+          type: string
+        approvalDate:
+          type: string
+          format: date-time
+        approvedBy:
+          type: string
+          format: uuid
+        termsConditions:
+          type: string
+        notes:
+          type: string
+        isActive:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+        createdBy:
+          type: string
+          format: uuid
+        updatedAt:
+          type: string
+          format: date-time
+        updatedBy:
+          type: string
+          format: uuid
+    RegisterLendingConfigurationCommand:
+      required:
+      - defaultTermMonths
+      - lendingTypeId
+      - maxTermMonths
+      - minTermMonths
+      - name
+      - productId
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        productId:
+          type: string
+          format: uuid
+        name:
+          type: string
+        description:
+          type: string
+        lendingTypeId:
+          type: string
+          format: uuid
+        minTermMonths:
+          type: integer
+          format: int32
+        maxTermMonths:
+          type: integer
+          format: int32
+        defaultTermMonths:
+          type: integer
+          format: int32
+        minDownPaymentPercentage:
+          type: number
+        defaultDownPaymentPercentage:
+          type: number
+        interestRate:
+          type: number
+        processingFeePercentage:
+          type: number
+        earlyTerminationFeePercentage:
+          type: number
+        latePaymentFeeAmount:
+          type: number
+        gracePeriodDays:
+          type: integer
+          format: int32
+        isDefault:
+          type: boolean
+        isActive:
+          type: boolean
+        termsConditions:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        createdBy:
+          type: string
+          format: uuid
+        updatedAt:
+          type: string
+          format: date-time
+        updatedBy:
+          type: string
+          format: uuid
+    RegisterLendingTypeCommand:
+      required:
+      - code
+      - name
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        code:
+          type: string
+        description:
+          type: string
+        isActive:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+        createdBy:
+          type: string
+          format: uuid
+        updatedAt:
+          type: string
+          format: date-time
+        updatedBy:
+          type: string
+          format: uuid
+    RegisterProductCategoryCommand:
+      required:
+      - code
+      - name
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        code:
+          type: string
+        description:
+          type: string
+        isActive:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+        createdBy:
+          type: string
+          format: uuid
+        updatedAt:
+          type: string
+          format: date-time
+        updatedBy:
+          type: string
+          format: uuid
+    RegisterProductCommand:
+      type: object
+      properties:
+        productCategory:
+          $ref: "#/components/schemas/RegisterProductCategoryCommand"
+        productInfo:
+          $ref: "#/components/schemas/RegisterProductInfoCommand"
+        lendingType:
+          $ref: "#/components/schemas/RegisterLendingTypeCommand"
+        lendingConfiguration:
+          $ref: "#/components/schemas/RegisterLendingConfigurationCommand"
+        leasingContract:
+          $ref: "#/components/schemas/RegisterLeasingContractCommand"
+        shipment:
+          $ref: "#/components/schemas/RegisterShipmentCommand"
+    RegisterProductInfoCommand:
+      required:
+      - distributorId
+      - name
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        distributorId:
+          type: string
+          format: uuid
+        name:
+          type: string
+        description:
+          type: string
+        sku:
+          type: string
+        modelNumber:
+          type: string
+        manufacturer:
+          type: string
+        categoryId:
+          type: string
+          format: uuid
+        imageUrl:
+          type: string
+        specifications:
+          type: string
+        isActive:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+        createdBy:
+          type: string
+          format: uuid
+        updatedAt:
+          type: string
+          format: date-time
+        updatedBy:
+          type: string
+          format: uuid
+    RegisterShipmentCommand:
+      required:
+      - lendingContractId
+      - productId
+      - shippingAddress
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        lendingContractId:
+          type: string
+          format: uuid
+        productId:
+          type: string
+          format: uuid
+        trackingNumber:
+          type: string
+        carrier:
+          type: string
+        shippingAddress:
+          type: string
+        shippingDate:
+          type: string
+          format: date-time
+        estimatedDeliveryDate:
+          type: string
+          format: date-time
+        actualDeliveryDate:
+          type: string
+          format: date-time
+        status:
+          type: string
+        notes:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        createdBy:
+          type: string
+          format: uuid
+        updatedAt:
+          type: string
+          format: date-time
+        updatedBy:
+          type: string
+          format: uuid
+        leasingContractId:
+          type: string
+          format: uuid
+    DistributorSimulationDTO:
+      required:
+      - applicationId
+      - distributorId
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        distributorId:
+          type: string
+          format: uuid
+        applicationId:
+          type: string
+          format: uuid
+        agentId:
+          type: string
+          format: uuid
+        agencyId:
+          type: string
+          format: uuid
+        simulationStatus:
+          type: string
+        notes:
+          type: string
+        isActive:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+        createdBy:
+          type: string
+          format: uuid
+        updatedAt:
+          type: string
+          format: date-time
+        updatedBy:
+          type: string
+          format: uuid
+    ProductDTO:
+      required:
+      - distributorId
+      - name
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        distributorId:
+          type: string
+          format: uuid
+        name:
+          type: string
+        description:
+          type: string
+        sku:
+          type: string
+        modelNumber:
+          type: string
+        manufacturer:
+          type: string
+        categoryId:
+          type: string
+          format: uuid
+        imageUrl:
+          type: string
+        specifications:
+          type: string
+        isActive:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+        createdBy:
+          type: string
+          format: uuid
+        updatedAt:
+          type: string
+          format: date-time
+        updatedBy:
+          type: string
+          format: uuid
