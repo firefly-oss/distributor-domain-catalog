@@ -47,7 +47,7 @@ server:
 # Clients basePath
 api-configuration:
   common-platform.distributor-mgmt:
-    base-path: http://localhost:8082
+    base-path: ${ENDPOINT_CORE_DISTRIBUTOR_MGMT:http://localhost:8082}
 
 springdoc:
   api-docs:
